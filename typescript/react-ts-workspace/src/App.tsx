@@ -1,11 +1,11 @@
 import React from "react";
-import CustomButton from "./components/Button";
+import ChatModal from "./components/ChatModal/ChatModal";
 
 const App = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>My React App</h1>
-      <CustomButton onClick={() => alert("Button clicked!")}>Click Me</CustomButton>
+      <ChatModal />
     </div>
   );
 };
