@@ -84,4 +84,19 @@ Finally, you must summon your component into the desired page:
 
 You have now completed the sacred ritual of component creation. May your code be clean, your tests pass, and your components shine brightly in the annals of this repository. Remember, the road is long, but with this tome as your guide, you shall not falter.
 
-**Go forth and create!** 🧙‍♂️✨
+**HARK A SECRET MAP!** 🧙‍♂️✨
+📁 libs
+   └── 📁 ui
+       └── 📁 src
+           ├── 📁 lib
+           │   └── 📁 <NAME OF COMPONENT>
+           │       ├── 📄 <NAME OF COMPONENT>.tsx
+           │       ├── 📄 <NAME OF COMPONENT>.spec.tsx
+           │       └── 📄 <NAME OF COMPONENT>.stories.tsx
+           └── 📄 index.ts
+📁 apps
+   └── 📁 client
+       └── 📁 src
+           └── 📁 app
+               └── 📁 pages
+                   └── 📄 pagename.tsx
