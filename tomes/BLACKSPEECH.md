@@ -1,7 +1,3 @@
-Ah, you're absolutely right! The triple backticks (```) were causing the Markdown block to end prematurely. Let me fix that by using proper Markdown formatting for the directory structure without breaking the code block. Here's the corrected version, fully wrapped in Markdown:
-
-markdown
-Copy
 # 🧙‍♂️ The Tome of the Black Speech 🧙‍♂️
 
 **Hark, brave developer!** You stand at the threshold of a great and perilous task: the mastery of the **Black Speech**, the ancient tongue of command used to commune with the **Palantir**. These mystical orbs, though powerful, are not to be trifled with. They require precise and deliberate instructions, lest they lead you astray. Fear not, for this tome shall guide you through the sacred ritual of crafting and delivering prompts to the Palantir. Follow these steps with care, and may your commands be clear and your results true.
