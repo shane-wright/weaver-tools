@@ -84,7 +84,8 @@ Finally, you must summon your component into the desired page:
 
 You have now completed the sacred ritual of component creation. May your code be clean, your tests pass, and your components shine brightly in the annals of this repository. Remember, the road is long, but with this tome as your guide, you shall not falter.
 
-**HARK A SECRET MAP!** 🧙‍♂️✨
+**MAP!** 🧙‍♂️✨
+```
 📁 libs
    └── 📁 ui
        └── 📁 src
@@ -100,3 +101,4 @@ You have now completed the sacred ritual of component creation. May your code be
            └── 📁 app
                └── 📁 pages
                    └── 📄 pagename.tsx
+```
