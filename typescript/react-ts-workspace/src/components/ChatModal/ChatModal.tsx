@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Fab, Modal, Box, Typography, TextField, IconButton } from "@mui/material";
+import { Fab, Modal, Box, Typography, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -21,13 +21,21 @@ const ChatModal: React.FC = () => {
           bottom: 16,
           right: 16,
         }}
+        data-testid="chat-modal-fab" // Add this line
+
       >
         <AddIcon />
       </Fab>
 
       {/* Modal */}
-      <Modal open={open} onClose={handleClose}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="chat-modal-title"
+        aria-describedby="chat-modal-description"
+      >
         <Box
+          role="dialog" // Add role="dialog" here
           sx={{
             position: "absolute",
             top: "50%",
@@ -49,14 +57,21 @@ const ChatModal: React.FC = () => {
               mb: 2,
             }}
           >
-            <Typography variant="h6">Chat</Typography>
-            <IconButton onClick={handleClose}>
+            <Typography id="chat-modal-title" variant="h6">
+              Chat
+            </Typography>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{ color: "text.primary" }}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
 
           {/* Chat Messages (Placeholder) */}
           <Box
+            id="chat-modal-description"
             sx={{
               height: 300,
               overflowY: "auto",
@@ -68,14 +83,6 @@ const ChatModal: React.FC = () => {
           >
             <Typography>Chat messages will go here.</Typography>
           </Box>
-
-          {/* Chat Input */}
-          <TextField
-            fullWidth
-            placeholder="Type a message..."
-            variant="outlined"
-            sx={{ mt: 2 }}
-          />
         </Box>
       </Modal>
     </>
