@@ -5,8 +5,8 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "esModuleInterop": true, // Add this
-    "jsx": "react-jsx", // Add this
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
     "module": "ESNext",
     "target": "ES6",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -16,7 +16,7 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "composite": true
+    "composite": true // This is required for the root config as well
   },
   "include": ["src", "e2e/chatbot.spec.ts"]
 }
