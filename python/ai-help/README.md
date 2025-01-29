@@ -28,6 +28,12 @@ pip install numpy
 ```
 NOTE CONTINUED: Python versions newer than 3.12.3 have been identified as the culprit for many such errors as of 20250129
 
+## Run Command
+```
+python index.py
+```
+
+
 ## The input JSON would depend on the specific data you want to add or query.
 
 Here are some examples:

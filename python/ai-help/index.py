@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import the CORS module
 from embedchain import App
 import tempfile
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 db_path: str = tempfile.mkdtemp()
 
 embedchain_app = App.from_config(
