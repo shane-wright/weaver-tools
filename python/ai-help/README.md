@@ -12,37 +12,20 @@ Here are some examples:
 
 For /add:
 
-- Adding text:
-
-```
-{
-  "data": "This is a sample text to be added."
-}
-```
-
 - Adding a document:
 
 ```
-{
+curl --silent --header 'accept: application/json' --header 'content-type: application/json' --data '{
   "data": {
-    "file_path": "path/to/your/document.pdf"
+    "file_path": "TIBR-fullstack-skill-requirements.pdf"
   }
-}
-```
-
-- Adding data with a custom id:
-
-```
-{
-  "data": "This is another sample text.",
-  "id": "my-custom-id"
-}
+}' http://localhost:5000/add
 ```
 
 - Query
 
 ```
-{
-  "query": "What is the sample text about?"
-}
+curl --silent --header 'accept: application/json' --header 'content-type: application/json' --data '{
+  "query": "What are the front end development requirements for TIBR?"
+}' http://localhost:5000/query
 ```
