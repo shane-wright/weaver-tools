@@ -1,0 +1,6 @@
+{
+  "filesToCheck": [
+    "requirements.txt",
+    "index.py"
+  ]
+}
