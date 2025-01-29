@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { Fab, Modal, Box, Typography, IconButton, Button, TextField } from "@mui/material";
+import { Fab, Modal, Box, Typography, TextField, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
+import apiClient from "../../libs/api-client";
 
 const ChatModal: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [response, setResponse] = useState('');
+
+  const handleSendMessage = async () => {
+    try {
+      console.log("MESSAGE", message);
+      const response = await apiClient.post('/query', { "query":message });
+      setResponse(response.data.response);
+      console.log("RESPONSE",response.data.response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -35,72 +49,61 @@ const ChatModal: React.FC = () => {
         aria-labelledby="chat-modal-title"
         aria-describedby="chat-modal-description"
       >
-        <Box
-          role="dialog" // Add role="dialog" here
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 2,
-          }}
-        >
-          {/* Modal Header */}
+      <Box sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="h6" component="h2">
+            Palantir
+          </Typography>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-            }}
-          >
-            <Typography id="chat-modal-title" variant="h6">
-              Chat
-            </Typography>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={{ color: "text.primary" }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          {/* Chat Messages (Placeholder) */}
-          <Box
-            id="chat-modal-description"
-            sx={{
-              height: 300,
-              overflowY: "auto",
-              border: "1px solid #ddd",
-              borderRadius: 1,
-              p: 2,
               mb: 2,
             }}
           >
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <TextField
-              id="chat-input"
-              label="Type a message..."
-              variant="outlined"
-              fullWidth
-              sx={{ mr: 1 }}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              startIcon={<SendIcon />}
-            >
-              Send
-            </Button>
+          <Typography>Palantir</Typography>
+          <Typography component="div" sx={{ mt: 2, overflowY: 'scroll', overflowX: 'hidden', maxHeight: 200, whiteSpace: 'pre-wrap' }}>
+            {response}
+          </Typography>
+          <Box
+            component="form"
+            // onSubmit={handleSendMessage}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              mb: 2,
+            }}
+          >
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <TextField
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type your message here"
+                variant="outlined"
+                fullWidth
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSendMessage}
+                startIcon={<SendIcon />}
+              >
+                Send
+              </Button>
+            </Box>
           </Box>
         </Box>
+      </Box>
       </Modal>
     </>
   );
