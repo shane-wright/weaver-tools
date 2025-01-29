@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Fab, Modal, Box, Typography, IconButton } from "@mui/material";
+import { Fab, Modal, Box, Typography, IconButton, Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
+import SendIcon from "@mui/icons-material/Send";
 
 const ChatModal: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -81,7 +82,23 @@ const ChatModal: React.FC = () => {
               mb: 2,
             }}
           >
-            <Typography>Chat messages will go here.</Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <TextField
+              id="chat-input"
+              label="Type a message..."
+              variant="outlined"
+              fullWidth
+              sx={{ mr: 1 }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              startIcon={<SendIcon />}
+            >
+              Send
+            </Button>
           </Box>
         </Box>
       </Modal>
