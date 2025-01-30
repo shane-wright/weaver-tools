@@ -52,5 +52,26 @@ def query_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/chat", methods=["POST"])
+def chat_data():
+    session_id = "developer"
+    config = {
+        "prompt": "You are an AI help chatbot to answer questions about a swarm robotics project.",
+        "temperature": 0.7,
+        "number_documents": 5
+    }
+
+    data = request.get_json()
+
+    if not data or "chat" not in data:
+        return jsonify({"error": "Missing chat"}), 400
+    try:
+        # response = embedchain_app.chat(data["chat"], session_id=session_id, config=config)
+        response = embedchain_app.chat(data["chat"], session_id=session_id)
+        return jsonify({"response": response}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run(debug=True)
+
