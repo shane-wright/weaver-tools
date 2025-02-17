@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RemixIcons';
+    src: url('../fonts/remix/remixicon.eot');
+    src: url('../fonts/remix/remixicon.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/remix/remixicon.woff2') format('woff2'),
+        url('../fonts/remix/remixicon.woff') format('woff'),
+        url('../fonts/remix/remixicon.ttf') format('truetype'),
+        url('../fonts/remix/remixicon.svg#remixicon') format('svg');
+}
+
+body, html {
+    font-family: 'roboto', sans-serif;
+    margin: 0;
+}
+
+.mainContent {
+    width: 100%;
+}
+
+.icon {
+    font-family: 'RemixIcons';
+}
+
+.icon:hover {
+    color: #007bff; /* Active color on hover */
+}
+
+.nav-link {
+    --pico-text-decoration: none; /* Override underline */
+}
+
+.nav-link:hover {
+    text-decoration: none; /* Prevent underline on hover */
+}
+
+.card {
+    border: 1px solid #ddd; /* Default border */
+}
+
+.card:hover {
+    animation: view-animation 200ms ease-in-out forwards;
+}
+
+@keyframes view-animation {
+    from { border-color: #ddd; }
+    to { border-color: #007bff; /* Change color on hover */}
+    /* You can add additional styles for animation like border-width change */
+}
