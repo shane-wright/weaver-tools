@@ -66,6 +66,7 @@ const animate = async () => {
     tibr.getElement("modelSelector").app.selectModel(tibr.data.ai.model)
 
     if(tibr.data.ai.messages.length === 0 && tibr.data.code.selectedFiles.length > 0) {
+        let selectedFileList = ""
         for(let file of tibr.data.code.selectedFiles) {
             let fileMessage = ""
 
@@ -79,8 +80,21 @@ const animate = async () => {
                 fileMessage += `\`\`\`\n`
             }
 
+            selectedFileList += `- ${file.name}\n`
             saveDraftChat(fileMessage)
         }
+        
+        let assistantInstructions = `
+I have provided code examples for these files:
+
+${selectedFileList}
+
+In a moment, I’ll ask you to perform some coding or analysis task based on the code listings provided.
+
+Inspect the code listings and respond with: "OK, I see these files: <list of files>. Proceed with your instructions"
+`
+
+        executeChat(assistantInstructions)
     }
 
     tibr.getElement("chatInput").focus()
@@ -222,7 +236,6 @@ const renderChatHistory = () => {
         }
     })
 }
-
 
 // @func renderModelSelector
 const renderModelSelector = () => {

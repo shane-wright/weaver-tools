@@ -1,17 +1,58 @@
-## Code Assistance Prompt
+# Task
 
-**Task:** [Clear description of the task you want Ollama to perform. Be as specific and detailed as possible. E.g., "Generate a Python function that takes two lists as input and returns a new list containing the elements of the first list in reverse order."]  
-
-**Context:**
-* **Project/Purpose (Optional):** [Briefly describe the context or project for which you need code.  E.g., "Building a web application for managing user profiles", "Part of a data processing pipeline"] 
+Add a save icon to the header
 
 
-**Specific Details:**  
+## Project/Purpose
 
-   * **Code Action:** [Describe what action you need from Ollama: generate code, explain code, debug, etc.] 
-   * **Output Type:** [Specify desired output type (e.g., "Code snippet", "Step-by-step explanation", "Report"). ] 
-    * **Format/Structure:** [If applicable, specify preferred formatting (e.g., "Python function with comments," "JavaScript code in a specific structure")].  
+This is a tauri application with a ES2024 Vanilla Javascript front end (direct DOM manipulation), and a rust backend.
 
-**Example (Optional):**  
-[Include an example of the desired output format to illustrate your expectations.]
+## Specific Details
 
+Update the `renderHeader` function in profile-view.js (code listing provided) to add a save icon.
+
+Example:
+
+```
+    header.append(renderSaveIcon())
+```
+
+Implement the `renderSaveIcon` function. in profile-view.js.
+
+Example:
+
+```
+// @func renderSaveIcon
+const renderSaveIcon = () => {
+    return Icon({
+        id: "saveIcon",
+        classes: ["ri-save-line"],
+        style: { fontSize: "36px" },
+        onClick: async (e) => {
+            // TODO: add implementation once requirements are given
+        }
+    })
+}
+```
+
+## Code Action
+
+Inspect the `ai-chat-view.js` code listing and note the `renderSaveIcon` function's implementation.
+
+Based on the renderSaveIcon function in `ai-chat-view.js`, create a similar function in `profile-view.js` called renderSaveIcon
+
+## Output Type
+
+Complete javascript code of `profile-view.js` with the added renderSaveIcon functin
+
+## Format/Structure
+  - ES2024 Javascript
+  - Use the tibr javascript sdk
+  - 4 spaces for indentation
+  - Direct DOM manipulation
+  - No semicolons for end of line
+  - else, catch, etc. on its own line
+
+## Assistant Notes
+
+I can show you more examples or provide more info about the TIBR sdk, just ask.
