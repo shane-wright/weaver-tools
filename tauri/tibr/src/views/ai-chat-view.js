@@ -49,7 +49,7 @@ const initialize = async () => {
 
     tibr.data.ai.availableModels = await getLocalModels()
 
-    if(tibr.data.ai.availableModels.length > 0) {
+    if(! tibr.data.ai.model && tibr.data.ai.availableModels.length > 0) {
         if(tibr.data.profile.preferences) {
             tibr.data.ai.model = tibr.data.profile.preferences.ai.model
         }
@@ -64,6 +64,26 @@ const animate = async () => {
     tibr.getElement("chatHistory").app.refreshHistory()
     tibr.getElement("modelSelector").app.refreshModels()
     tibr.getElement("modelSelector").app.selectModel(tibr.data.ai.model)
+
+    if(tibr.data.ai.messages.length === 0 && tibr.data.code.selectedFiles.length > 0) {
+        for(let file of tibr.data.code.selectedFiles) {
+            let fileMessage = ""
+
+            if (file.name.endsWith('.md')) {
+                fileMessage += file.content
+            }
+            else {
+                fileMessage = `# ${file.name}\n\n`
+                fileMessage += `\`\`\`\n`
+                fileMessage += file.content
+                fileMessage += `\`\`\`\n`
+            }
+
+            saveDraftChat(fileMessage)
+        }
+    }
+
+    tibr.getElement("chatInput").focus()
 }
 
 // @func renderToast
@@ -174,7 +194,7 @@ const resetSelectedFiles = () => {
 
     let fileIndicator = tibr.getElement("fileIndicator")
     fileIndicator.innerHTML = ""
-    fileIndicator.append(`0 files attached`)
+    fileIndicator.append(`0 file(s) attached`)
 }
 
 // @func renderChatHistory
@@ -276,6 +296,7 @@ const renderChatForm = () => {
 
             if(tibr.data.ai.model === "draft") {
                 saveDraftChat(message)
+                tibr.getElement("chatInput").focus()
             }
             else {
                 executeChat(message)
@@ -330,25 +351,6 @@ const executeChat = async (message) => {
 
     const chatDialog = tibr.getElement("chatDialog")
 
-    if(tibr.data.ai.messages.length === 0 && tibr.data.code.selectedFiles.length > 0) {
-        for(let file of tibr.data.code.selectedFiles) {
-            let fileMessage = ""
-
-            if (file.name.endsWith('.md')) {
-                fileMessage += file.content
-            }
-            else {
-                fileMessage = `# ${file.name}\n\n`
-                fileMessage += `\`\`\`\n`
-                fileMessage += file.content
-                fileMessage += `\`\`\`\n`
-            }
-
-            chatDialog.app.addMessage("user", fileMessage)
-            tibr.data.ai.messages.push({ role: 'user', content: fileMessage })
-        }
-    }
-
     chatDialog.app.addMessage("user", message)
     tibr.data.ai.messages.push({ role: 'user', content: message })
 
@@ -379,6 +381,7 @@ const executeChat = async (message) => {
     finally {
         // Re-enable the form
         chatForm.app.setDisabled(false)
+        tibr.getElement("chatInput").focus()
     }
 }
 

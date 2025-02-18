@@ -34,7 +34,7 @@ export default function ChatForm(options) {
     chatInput.style.resize = 'none'
 
     if(options.responsive === true) {
-        chatInput.style.height = '125px'
+        chatInput.style.height = '200px'
 
         window.addEventListener('resize', adjustChatInputHeight)
 
@@ -42,7 +42,7 @@ export default function ChatForm(options) {
             if (window.matchMedia('(max-width: 768px), (max-height: 600px)').matches) { // Tablet and phone
                 chatInput.style.height = '50px'
             } else {
-                chatInput.style.height = '125px'
+                chatInput.style.height = '200px'
             }
         }
     }
