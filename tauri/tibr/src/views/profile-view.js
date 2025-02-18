@@ -1,9 +1,9 @@
 import Container from "../components/container.js"
 import H4 from "../components/h4.js"
 import HR from "../components/hr.js"
+import Icon from "../components/icon.js"
 import Nav from "../components/nav.js"
-import Card from "../components/card.js"
-
+import ProfileForm from "../components/profile-form.js"
 // @func render
 const render = async () => {
     let mainContent = tibr.getElement("mainContent")
@@ -12,8 +12,10 @@ const render = async () => {
         id: "profileView",
         classes: ["container-fluid"],
         style: {
-            marginTop: "5px",
-            marginBottom: "40px",
+            display: "flex",
+            flexDirection: "column",
+            height: "100vh",
+            overflow: "hidden",
         },
     })
 
@@ -21,10 +23,9 @@ const render = async () => {
 
     await initialize()
 
-    viewContainer.append(Nav({}))
-
     viewContainer.append(renderHeader())
 
+    viewContainer.append(renderProfileForm())
     await animate()
 }
 
@@ -43,10 +44,48 @@ const renderHeader = () => {
         style: {
             display: "flex",
             gap: "10px",
+            marginTop: "5px",
         }
     })
 
+    header.append(Nav({}))
+    header.append(renderSaveIcon())
+
     return header
+}
+
+// @func renderProfileForm
+const renderProfileForm = () => {
+    let profileFormContainer = Container({
+        id: "profileFormContainer",
+        style: {
+            marginLeft: "40px",
+            marginRight: "40px",
+        }
+    })
+
+    let profileForm = ProfileForm({
+        id: "profileForm",
+        onSubmit: () => {
+            console.log("save profile...")
+        }
+    })
+
+    profileFormContainer.append(profileForm)
+
+    return profileFormContainer
+}
+
+// @func renderSaveIcon
+const renderSaveIcon = () => {
+    return Icon({
+        id: "saveIcon",
+        classes: ["ri-save-line"],
+        style: { fontSize: "36px" },
+        onClick: async (e) => {
+            console.log("save profile...")
+        }
+    })
 }
 
 // @func onMessage
