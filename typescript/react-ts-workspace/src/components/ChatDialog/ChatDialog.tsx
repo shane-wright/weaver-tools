@@ -1,6 +1,9 @@
 import React from 'react';
-import marked from 'marked';
-import DOMPurify from 'dompurify';
+// import { addMessage, clearMessages } from './ChatDialog';
+// import marked from 'marked';
+// import DOMPurify from 'dompurify';
+// tslint:disable:no-any
+
 
 interface ChatDialogOptions {
     id?: string;
@@ -24,7 +27,7 @@ export default function ChatDialog(options: ChatDialogOptions): HTMLDivElement {
     chatDialog.classList.add('message');
 
     if (options.classes) {
-        for (let className of options.classes) {
+        for (const className of options.classes) {
         chatDialog.classList.add(className);
         }
     }
