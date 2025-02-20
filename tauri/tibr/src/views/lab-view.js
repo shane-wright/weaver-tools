@@ -40,7 +40,6 @@ const renderHeader = () => {
         style: {
             display: "flex",
             justifyContent: "space-between",
-            padding: "20px 40px",
             alignItems: "center",
         }
     })
@@ -84,7 +83,7 @@ const renderSideMenuIcon = () => {
             cursor: "pointer",
         },
         onClick: async (e) => {
-            console.log("Side Menu")
+            
         },
     })
 }

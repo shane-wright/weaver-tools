@@ -7,7 +7,12 @@
 * @returns {HTMLFormElement} The configured profile form element
 */
 
+import Button from "./button.js"
+import Container from "./container.js"
+import Label from "./label.js"
 import ModelSelector from "./model-selector.js"
+import Toast from "./toast.js"
+import ViewSelector from "./view-selector.js"
 
 // @func ProfileForm
 export default function ProfileForm(options) {
@@ -21,7 +26,7 @@ export default function ProfileForm(options) {
     // Add the specified classes if provided.
     if(options.classes) {
         for(let className of options.classes) {
-        profileForm.classList.add(className)
+            profileForm.classList.add(className)
         }
     }
 
@@ -30,59 +35,110 @@ export default function ProfileForm(options) {
         Object.assign(profileForm.style, options.style)
     }
 
-    const modelField = document.createElement("label")
-    modelField.htmlFor = "model"
-    modelField.textContent = "Model:"
-    profileForm.append(modelField)
+
+    profileForm.append(renderToast())
+
+    profileForm.append(renderViewSelector())
+
     profileForm.append(renderModelSelector())
 
+    profileForm.append(renderSaveButton())
 
-
-    const viewField = document.createElement("label")
-    viewField.htmlFor = "view"
-    viewField.textContent = "View:"
-    profileForm.appendChild(viewField)
-
-    const viewSelect = document.createElement("select")
-    viewSelect.id = "view"; 
-    // Populate the dropdown with options from ollama views list. 
-    let views = [ // Example: Populate the dropdown 
-        { value: "view1", label: "View 1" },
-        { value: "view2", label: "View 2" },
-        { value: "view3", label: "View 3" }
-    ]
-
-    views.forEach((option) => {
-      let optionElement = document.createElement("option")
-      optionElement.value = option.value
-      optionElement.text = option.label
-      viewSelect.appendChild(optionElement)
-    })
-
-    profileForm.appendChild(viewSelect)
-
-
-    const submitButton = document.createElement('button')
-    submitButton.id = 'profileSubmitButton'
-    submitButton.type = 'submit'
-    submitButton.textContent = 'Submit'
-    
-    profileForm.appendChild(submitButton)
-
-    profileForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        // Add submit logic here
-    })
 
     return profileForm
 }
 
+// @func renderToast
+const renderToast = () => {
+    return Toast({
+        id: "profileFormToast",
+    })
+}
+
 // @func renderModelSelector
 const renderModelSelector = () => {
-    return ModelSelector({
+    let modelSelectorContainer = Container({
+        id: "modelSelectorContainer",
+        style: {
+            display: "flex",
+        },
+    })
+
+    modelSelectorContainer.append(Label({
+        id: "modelSelectorLabel",
+        label: "Model:",
+        style: {
+            width: "100px",
+        },
+    }))
+
+    modelSelectorContainer.append(ModelSelector({
         id: "modelSelector",
         onChange: (e) => {
-            console.log(e.target.value)
+            
+        }
+    }))
+
+
+    return modelSelectorContainer
+}
+
+// @func renderViewSelector
+const renderViewSelector = () => {
+    let viewSelectorContainer = Container({
+        id: "viewSelectorContainer",
+        style: {
+            display: "flex",
+        },
+    })
+
+    viewSelectorContainer.append(Label({
+        id: "viewSelectorLabel",
+        label: "View:",
+        style: {
+            width: "100px",
+        },
+    }))
+
+    viewSelectorContainer.append(ViewSelector({
+        id: "viewSelector",
+        onChange: (e) => {
+            
+        }
+    }))
+
+    return viewSelectorContainer
+}
+
+// @func renderSaveButton
+const renderSaveButton = () => {
+    let saveButton = Button({
+        id: "saveButton",
+        label: "Save",
+        style: {
+            width: "100%",
+        },
+        onClick: (e) => {
+            e.preventDefault()
+
+            let modelSelector = tibr.getElement("modelSelector")
+            let viewSelector = tibr.getElement("viewSelector")
+            let toast = tibr.getElement("profileFormToast")
+
+            let model = modelSelector.options[modelSelector.selectedIndex].value
+
+            if(model) {
+                tibr.data.profile.preferences.model = model
+            }
+
+            let view = viewSelector.options[viewSelector.selectedIndex].value
+            if(view) {
+                tibr.data.profile.preferences.view = view
+            }
+
+            toast.app.show("Profile saved")
         }
     })
+
+    return saveButton
 }

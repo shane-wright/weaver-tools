@@ -4,6 +4,7 @@ import HR from "../components/hr.js"
 import Icon from "../components/icon.js"
 import Nav from "../components/nav.js"
 import ProfileForm from "../components/profile-form.js"
+
 // @func render
 const render = async () => {
     let mainContent = tibr.getElement("mainContent")
@@ -26,6 +27,7 @@ const render = async () => {
     viewContainer.append(renderHeader())
 
     viewContainer.append(renderProfileForm())
+
     await animate()
 }
 
@@ -59,15 +61,13 @@ const renderProfileForm = () => {
     let profileFormContainer = Container({
         id: "profileFormContainer",
         style: {
-            marginLeft: "40px",
-            marginRight: "40px",
         }
     })
 
     let profileForm = ProfileForm({
         id: "profileForm",
         onSubmit: () => {
-            console.log("save profile...")
+            
         }
     })
 
@@ -83,7 +83,7 @@ const renderSaveIcon = () => {
         classes: ["ri-save-line"],
         style: { fontSize: "36px" },
         onClick: async (e) => {
-            console.log("save profile...")
+            
         }
     })
 }

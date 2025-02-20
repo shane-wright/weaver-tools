@@ -2,7 +2,7 @@ const { invoke } = window.__TAURI__.core
 
 // @func getAIResponse
 export const getAIResponse = async (model, messages) => {
-    console.log('Current model:', model)
+    
 
     let response = await invoke('chat', { model: model, messages: messages })
     return(JSON.parse(response))

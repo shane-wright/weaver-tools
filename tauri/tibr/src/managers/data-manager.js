@@ -11,15 +11,15 @@ export async function initializeDatabase() {
     }
 }
 
-// Save a message to the database
-// @func saveChatDialog
-export async function saveChatDialog(description, messages) {
+// Create a message to the database
+// @func createChatDialog
+export async function createChatDialog(description, messages) {
     const id = uuidv4()
 
     try {
-        await invoke('save_chat_dialog', { id, description, messages })
+        await invoke('create_chat_dialog', { id, description, messages })
     } catch (error) {
-        console.error('Failed to save message:', error)
+        console.error('Failed to create message:', error)
     }
 }
 
@@ -60,14 +60,25 @@ export async function getChatHistory() {
     }
 }
 
-// @func saveProfile
-export async function saveProfile(email, preferences) {
-    const id = uuidv4()
-
+// @func createProfile
+export async function createProfile(id, preferences) {
     try {
-        await invoke('save_profile', { id, email, preferences })
+        const id = uuidv4()
+        await invoke('create_profile', { id, preferences })
     } catch (error) {
-        console.error('Failed to save profile:', error)
+        console.error('Failed to create profile:', error)
+    }
+}
+
+// Update a user's profile in the database
+// @func updateProfile
+export async function updateProfile(profile) {
+    try {
+        await invoke('update_profile', { id: profile.id, email: profile.email, preferences: JSON.stringify(profile.preferences) })
+        return true
+    } catch (error) {
+        console.error('Failed to update profile:', error)
+        return false
     }
 }
 

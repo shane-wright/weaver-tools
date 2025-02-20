@@ -38,7 +38,7 @@ export default function SelectFolder(options) {
 
     // Attach an event handler to open folder selection dialog.
     button.addEventListener("click", async () => {
-        console.log("Select folder...")
+        
     })
 
     return button

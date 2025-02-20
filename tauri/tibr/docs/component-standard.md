@@ -1,8 +1,8 @@
-# Component Design Standard
+# TIBR Component Design Standard
 
 ## Overview
 
-Components are designed in a standard way to create a html element with various configuration options.
+TIBR Components are designed in a standard way to create a html element with various configuration options.
 
 It allows developers to customize a component's behavior, appearance, and functionality through a set of optional parameters.
 
@@ -40,7 +40,9 @@ The component returns an `HTMLElement`. It is structured to encapsulate various 
 
 ## Usage Example
 
-Here's an example of how you might use this component design standard:
+Here's an example of how you might use the TIBR component design standard:
+
+### Example Component (Button)
 
 ```javascript
 /**
@@ -88,4 +90,22 @@ export default function Button(options) {
 
     return button
 }
+```
+
+## Example Usage
+
+```javascript
+    let selectFolderButton = Button({
+        id: "selectFolderButton",
+        label: "Get Files",
+        style: {
+            width: "200px",
+        },
+        onClick: async () => {
+            let projectPath = tibr.getElement("selectFolderInput").value
+            tibr.data.code.projectPath =  projectPath
+
+            getSourceCode(tibr.data.code.projectPath, onMessage)
+        },
+    })
 ```

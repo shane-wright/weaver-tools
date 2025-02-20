@@ -27,27 +27,33 @@ async fn chat(model: String, messages: Vec<serde_json::Value>) -> Result<String,
         .map_err(|e| e.to_string())
 }
 
-// @func generate
+// @func get_local_models
 #[tauri::command]
-async fn generate(model: String, propmt: String) -> Result<String, String> {
-    // Convert the messages array into a single prompt string
+async fn get_local_models() -> Result<Vec<serde_json::Value>, String> {
     let client = reqwest::Client::new();
-    let response = client.post("http://localhost:11434/api/generate")
-        .json(&json!({
-            "model": model.clone(),
-            "prompt": propmt.clone(),
-            "stream": false
-        }))
+    let response = client.get("http://localhost:11434/api/tags")
         .send()
         .await
         .map_err(|e| e.to_string())?;
-    response.text()
+
+    let data: serde_json::Value = response.json()
         .await
-        .map_err(|e| e.to_string())
+        .map_err(|e| e.to_string())?;
+
+    let models = data["models"].as_array().unwrap_or(&vec![])
+        .iter()
+        .map(|model| {
+            let name = model["name"].as_str().unwrap_or("").to_string();
+            let description = name.split(':').next().unwrap_or("").replace('-', " ");
+            json!({"name": name, "description": description})
+        })
+        .collect();
+
+    Ok(models)
 }
 
 ////////
-// DATA
+// DB
 ////////
 
 type DbConnection = Arc<Mutex<Connection>>;
@@ -68,7 +74,6 @@ async fn initialize_db(db: State<'_, DbConnection>) -> Result<(), String> {
     conn.execute(
         "CREATE TABLE IF NOT EXISTS profiles (
             id TEXT PRIMARY KEY NOT NULL,
-            email TEXT NOT NULL,
             preferences TEXT NOT NULL
         )",
         [],
@@ -77,13 +82,13 @@ async fn initialize_db(db: State<'_, DbConnection>) -> Result<(), String> {
     Ok(())
 }
 
-//
-// chat_history
-//
+////////
+// CHAT_HISTORY
+////////
 
-// @func save_chat_dialog (chat_
+// @func create_chat_dialog (chat_
 #[tauri::command]
-async fn save_chat_dialog(db: State<'_, DbConnection>, id: String, description: String, messages: String) -> Result<(), String> {
+async fn create_chat_dialog(db: State<'_, DbConnection>, id: String, description: String, messages: String) -> Result<(), String> {
     let conn = db.lock().await;
     conn.execute(
         "INSERT INTO chat_history (id, description, messages) VALUES (?1, ?2, ?3)",
@@ -131,20 +136,32 @@ async fn get_chat_history(db: State<'_, DbConnection>) -> Result<Vec<(String, St
     Ok(history)
 }
 
-// @func save_profile
+////////
+// PROFILES
+////////
+
+// @func create_profile
 #[tauri::command]
-async fn save_profile(db: State<'_, DbConnection>, id: String, email: String, preferences: String) -> Result<(), String> {
+async fn create_profile(db: State<'_, DbConnection>, id: String, preferences: String) -> Result<(), String> {
     let conn = db.lock().await;
     conn.execute(
-        "INSERT INTO profiles (id, email, preferences) VALUES (?1, ?2, ?3)",
-        params![id, email, preferences],
+        "INSERT INTO profiles (id, preferences) VALUES (?1, ?2)",
+        params![id, preferences],
     ).map_err(|e| e.to_string())?;
     Ok(())
 }
 
-//
-// profiles
-//
+// @func update_profile
+#[tauri::command]
+async fn update_profile(db: State<'_, DbConnection>, id: String, preferences: String) -> Result<(), String> {
+    let conn = db.lock().await;
+    conn.execute(
+        "UPDATE profiles SET preferences = ?1 WHERE id = ?2",
+        params![preferences, id],
+    ).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
 
 // @func get_profiles
 #[tauri::command]
@@ -161,32 +178,6 @@ async fn get_profiles(db: State<'_, DbConnection>) -> Result<Vec<(String, String
     Ok(profiles)
 }
 
-// @func get_local_models
-#[tauri::command]
-async fn get_local_models() -> Result<Vec<serde_json::Value>, String> {
-    let client = reqwest::Client::new();
-    let response = client.get("http://localhost:11434/api/tags")
-        .send()
-        .await
-        .map_err(|e| e.to_string())?;
-
-    let data: serde_json::Value = response.json()
-        .await
-        .map_err(|e| e.to_string())?;
-
-    let models = data["models"].as_array().unwrap_or(&vec![])
-        .iter()
-        .map(|model| {
-            let name = model["name"].as_str().unwrap_or("").to_string();
-            let description = name.split(':').next().unwrap_or("").replace('-', " ");
-            json!({"name": name, "description": description})
-        })
-        .collect();
-
-    Ok(models)
-}
-
-
 ////////
 // FILES
 ////////
@@ -198,7 +189,7 @@ async fn get_source_code(project_path: String) -> Result<Vec<String>, String> {
     let output = Command::new("bash")
         .arg("-c")
         .arg(format!(
-            "cd {} && find . -type f \\( -name '*.rs' -o -name '*.js' -o -name '*.css' -o -name '*.md' -o -name '*.json' \\) ! -path './src/lib/*' ! -path './src-tauri/target/*' ! -path './node_modules/*'",
+            "cd {} && find . -type f ! -path './src/lib/*' ! -path './src-tauri/target/*' ! -path './node_modules/*'",
             project_path
         ))
         .output()
@@ -228,7 +219,7 @@ async fn read_file(file_path: String) -> Result<String, String> {
 }
 
 ////////
-// RUN
+// EXECUTE
 ////////
 
 // @func run
@@ -239,7 +230,7 @@ pub fn run() {
     tauri::Builder::default()
         .manage(db_conn)
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![chat, initialize_db, save_chat_dialog, update_chat_dialog, get_chat_dialog, get_chat_history, get_profiles, save_profile, get_local_models, get_source_code, read_file])
+        .invoke_handler(tauri::generate_handler![chat, get_local_models, initialize_db, create_chat_dialog, update_chat_dialog, get_chat_dialog, get_chat_history, create_profile, update_profile, get_profiles, get_source_code, read_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -10,7 +10,7 @@ import Nav from "../components/nav.js"
 import QuestionModal from "../components/question-modal.js"
 import Toast from "../components/toast.js"
 
-import { saveChatDialog, getChatHistory, updateChatDialog } from "../managers/data-manager.js"
+import { createChatDialog, getChatHistory, updateChatDialog } from "../managers/data-manager.js"
 import { getAIResponse, getLocalModels } from "../managers/ai-manager.js"
 
 // @func render
@@ -35,7 +35,6 @@ const render = async () => {
     viewContainer.append(renderToast())
     viewContainer.append(renderSaveModal())
     viewContainer.append(renderHeader())
-    viewContainer.append(renderFileIndicator())
     viewContainer.append(renderChatApp())
 
     await animate()
@@ -43,7 +42,10 @@ const render = async () => {
 
 // @func initialize
 const initialize = async () => {
-    tibr.data.ai.messages = []
+    if(tibr.data.code.selectedFiles.length === 0) {
+        tibr.data.ai.messages = []
+    }
+
     tibr.data.ai.history = await getChatHistory()
     tibr.data.ai.chatHistoryId = null
 
@@ -65,36 +67,9 @@ const animate = async () => {
     tibr.getElement("modelSelector").app.refreshModels()
     tibr.getElement("modelSelector").app.selectModel(tibr.data.ai.model)
 
-    if(tibr.data.ai.messages.length === 0 && tibr.data.code.selectedFiles.length > 0) {
-        let selectedFileList = ""
-        for(let file of tibr.data.code.selectedFiles) {
-            let fileMessage = ""
-
-            if (file.name.endsWith('.md')) {
-                fileMessage += file.content
-            }
-            else {
-                fileMessage = `# ${file.name}\n\n`
-                fileMessage += `\`\`\`\n`
-                fileMessage += file.content
-                fileMessage += `\`\`\`\n`
-            }
-
-            selectedFileList += `- ${file.name}\n`
-            saveDraftChat(fileMessage)
-        }
-        
-        let assistantInstructions = `
-I have provided code examples for these files:
-
-${selectedFileList}
-
-In a moment, I’ll ask you to perform some coding or analysis task based on the code listings provided.
-
-Inspect the code listings and respond with: "OK, I see these files: <list of files>. Proceed with your instructions"
-`
-
-        executeChat(assistantInstructions)
+    // add selectedFiles to messages
+    if(tibr.data.code.selectedFiles.length > 0) {
+        await attachFiles()
     }
 
     tibr.getElement("chatInput").focus()
@@ -105,6 +80,55 @@ const renderToast = () => {
     return Toast({
         id: "toast",
     })
+}
+
+// @func attachFiles
+const attachFiles = async () => {
+    // add selectedFiles to messages
+    tibr.getElement("chatForm").app.setDisabled(true)
+
+    let fileList = tibr.data.code.selectedFiles.map((file) => {
+        return file.name
+    }).join(", ")
+
+    chatDialog.app.addMessage("user", `Please attach ${fileList}`)
+
+    for(let file of tibr.data.code.selectedFiles) {
+        let fileMessage = ""
+
+        fileMessage = `# Here's a file attachment for reference:\n\n`
+        fileMessage = `## File Attachment:\n\n ${file.name}\n\n`
+        fileMessage = `## File Content:\n\n`
+        fileMessage += `---\n`
+        fileMessage += `${file.content}\n`
+        fileMessage += `---\n\n`
+        fileMessage += `
+## Assistant instructions
+
+Please do quiet inspection of the file and be prepard to answer questions.
+
+Note the file attachment name (${file.name}) and analyze the file content.
+
+Please answer with "File attached: ${file.name}" and a one-sentence summary of the file content\n
+        `
+
+        tibr.data.ai.messages.push({ role: 'user', content: fileMessage })
+
+        const aiResponse = await fetchAIResponse()
+
+        if (aiResponse) {
+            toast.app.show(`${file.name} attached`)
+
+            chatDialog.app.addMessage('ai', aiResponse.message.content)
+
+            tibr.data.ai.messages.push({ role: 'assistant', content: aiResponse.message.content })
+        }
+    }
+
+    // clear selectedFiles
+    tibr.data.code.selectedFiles = []
+
+    tibr.getElement("chatForm").app.setDisabled(false)
 }
 
 // @func renderHeader
@@ -121,8 +145,8 @@ const renderHeader = () => {
     header.append(Nav({}))
     header.append(renderChatHistory())
     header.append(renderModelSelector())
-    header.append(renderFileSelectIcon())
     header.append(renderNewChatIcon())
+    header.append(renderFileSelectIcon())
     header.append(renderSaveIcon())
 
     return header
@@ -132,7 +156,7 @@ const renderHeader = () => {
 const renderFileSelectIcon = () => {
     return Icon({
         id: "fileSelectIcon",
-        classes: ["ri-file-list-line"],
+        classes: ["ri-folder-add-line"],
         style: { fontSize: "36px" },
         onClick: async () => {
             tibr.render("TibrCodeView")
@@ -157,12 +181,8 @@ const renderNewChatIcon = () => {
                 chatHistory.selectedIndex = 0
             }
 
-            resetSelectedFiles()
-
             await initialize()
             await animate()
-
-            console.log("Started a new chat")
         }
     })
 }
@@ -188,27 +208,6 @@ const renderSaveIcon = () => {
             }
         }
     })
-}
-
-// @func renderFileIndicator
-const renderFileIndicator = () => {
-    let fileIndicator = Container({
-        id: "fileIndicator",
-    })
-
-    let selectedFileCount = tibr.data.code.selectedFiles.length
-    fileIndicator.append(`${selectedFileCount} file(s) attached`)
-
-    return fileIndicator
-}
-
-// @func resetSelectedFiles
-const resetSelectedFiles = () => {
-    tibr.data.code.selectedFiles = []
-
-    let fileIndicator = tibr.getElement("fileIndicator")
-    fileIndicator.innerHTML = ""
-    fileIndicator.append(`0 file(s) attached`)
 }
 
 // @func renderChatHistory
@@ -271,8 +270,6 @@ const renderChatDialog = () => {
     let chatDialogContainer = Container({
         id: "chatDialogContainer",
         style: {
-            marginLeft: "40px",
-            marginRight: "40px",
             flexGrow: 1,
             overflowY: "auto",
             paddingBottom: "10px",
@@ -293,8 +290,6 @@ const renderChatForm = () => {
     let chatFormContainer = Container({
         id: "chatFormContainer", 
         style: {
-            marginLeft: "40px",
-            marginRight: "40px",
         }
     })
 
@@ -308,7 +303,7 @@ const renderChatForm = () => {
             chatInput.value = ""
 
             if(tibr.data.ai.model === "draft") {
-                saveDraftChat(message)
+                createDraftChat(message)
                 tibr.getElement("chatInput").focus()
             }
             else {
@@ -330,7 +325,9 @@ const renderSaveModal = () => {
             let saveModal = tibr.getElement("saveModal")
             let description = saveModal.app.getDescription()
 
-            await saveChatDialog(description, JSON.stringify(tibr.data.ai.messages))
+            await createChatDialog(description, JSON.stringify(tibr.data.ai.messages))
+
+            tibr.getElement("chatHistory").app.selectHistory(description)
 
             let toast = tibr.getElement("toast")
             toast.app.show(`Question saved: ${description}`)
@@ -343,12 +340,19 @@ const renderSaveModal = () => {
     })
 }
 
-// @func saveDraftChat
-const saveDraftChat = async (message) => {
+// @func renderMessages
+const renderMessages = async () => {
+    const chatDialog = tibr.getElement("chatDialog")
+    for(let message of tibr.data.ai.messages) {
+        chatDialog.app.addMessage(message.role, message.content)
+    }
+}
+
+// @func createDraftChat
+const createDraftChat = async (message) => {
     const chatDialog = tibr.getElement("chatDialog")
 
     chatDialog.app.addMessage("user", message)
-
     tibr.data.ai.messages.push({ role: 'user', content: message })
 
     tibr.getElement("toast").app.show("Added message")
@@ -359,42 +363,53 @@ const executeChat = async (message) => {
     let toast = tibr.getElement("toast")
     toast.app.show("Generating Response")
 
+    const chatDialog = tibr.getElement("chatDialog")
     const chatForm = tibr.getElement("chatForm")
+
     chatForm.app.setDisabled(true)
 
-    const chatDialog = tibr.getElement("chatDialog")
-
     chatDialog.app.addMessage("user", message)
+
     tibr.data.ai.messages.push({ role: 'user', content: message })
 
+    const aiResponse = await fetchAIResponse()
+
+    if (aiResponse) {
+        toast.app.show("Response ready")
+
+        chatDialog.app.addMessage('ai', aiResponse.message.content)
+
+        tibr.data.ai.messages.push({ role: 'assistant', content: aiResponse.message.content })
+
+        chatForm.app.setDisabled(false);
+        tibr.getElement("chatInput").focus();
+
+    }
+    else {
+        toast.app.show("Response error")
+        throw new Error('Invalid response format')
+    }
+}
+
+const fetchAIResponse = async () => {
     try {
         const timeoutMs = 90000; // 90 seconds
         const aiResponse = await Promise.race([
             getAIResponse(tibr.data.ai.model, tibr.data.ai.messages),
-                new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error('Request timed out')), timeoutMs)
-                )
-        ])
+            new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Request timed out')), timeoutMs)
+            )
+        ]);
 
         if (aiResponse) {
-            toast.app.show("Response ready")
-            console.log(aiResponse)
-            chatDialog.app.addMessage('ai', aiResponse.message.content)
-            tibr.data.ai.messages.push({ role: 'assistant', content: aiResponse.message.content })
+            return aiResponse
         }
         else {
-            toast.app.show("Response error")
-            throw new Error('Invalid response format')
+            return ""
         }
     }
     catch (error) {
-        console.error('Error:', error)
-        chatDialog.addMessage('error', error.message || 'Sorry, something went wrong. Please try again.')
-    }
-    finally {
-        // Re-enable the form
-        chatForm.app.setDisabled(false)
-        tibr.getElement("chatInput").focus()
+            return ""
     }
 }
 
