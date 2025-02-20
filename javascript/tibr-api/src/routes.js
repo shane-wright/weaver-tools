@@ -33,8 +33,8 @@ router.post("/chat", async (req, res) => {
     }
 })
 
-// GET /api/tags
-router.get('/api/tags', async (req, res) => {
+// GET /tags
+router.get('/tags', async (req, res) => {
     try {
         const response = await axios.get('http://localhost:11434/api/tags');
         const models = response.data.models.map(model => {
