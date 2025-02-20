@@ -31,6 +31,12 @@ const initialize = async () => {
     await initializeDatabase()
 
     tibr.data.profile = await getProfile()
+    /*
+     * TODO: insert/create/save a new profile if none exists
+    if(Object.keys(profile).length === 0) {
+        await insertProfile()
+    }
+    */
 
     tibr.render()
 

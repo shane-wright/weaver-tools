@@ -1,21 +1,21 @@
 /**
-* Nav Component
+* ViewSelector Component
 * @param {Object} options - Configuration options for the select element
 * @param {string} [options.id] - ID for the select element
 * @param {string[]} [options.classes] - CSS classes for the select element
 * @param {Object} [options.style] - Inline styles for the select element
 * @returns {HTMLHeadingElement} The configured select element
 */
-// @func Nav
-export default function Nav(options) {
+
+import viewModules from "../managers/view-modules.js"
+
+// @func ViewSelector
+export default function ViewSelector(options) {
     const select = document.createElement('select')
 
     // Assign the id if provided.
     if(options.id) {
         select.id = options.id
-    }
-    else {
-        select.id = "nav"
     }
 
     // Add the specified classes if provided.
@@ -30,38 +30,31 @@ export default function Nav(options) {
         Object.assign(select.style, options.style)
     }
 
-    refreshNav(select)
+    refreshViewSelector(select)
 
     if (options.onChange) {
         select.addEventListener('change', options.onChange)
-    }
-    else {
-        select.addEventListener('change', (e) => {
-            let viewName = e.target.value
-            
-            tibr.render(viewName)
-        })
     }
 
     return select
 }
 
-function refreshNav(select) {
+function refreshViewSelector(select) {
     if(select) {
         // Remove each option from the select element
         while (select.firstChild) {
             select.removeChild(select.firstChild)
         }
 
-        if (tibr.nav.views) {
-            Object.keys(tibr.nav.views).forEach(viewName => {
-                let view = tibr.nav.views[viewName]
+        if(viewModules.views) {
+            Object.keys(viewModules.views).forEach((viewName) => {
+                let view = viewModules.views[viewName]
 
                 if(view.showInHeader) {
                     const option = document.createElement('option')
                     option.value = viewName
                     option.textContent = view.label
-                    if (viewName === tibr.view.name) {
+                    if(tibr.data.profile.preferences && viewName === tibr.data.profile.preferences.view.default) {
                         option.selected = true
                     }
                     select.appendChild(option)

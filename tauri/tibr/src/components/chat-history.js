@@ -6,6 +6,7 @@
 * @param {Object} [options.style] - Inline styles for the select element
 * @returns {HTMLHeadingElement} The configured select element
 */
+
 // @func ChatHistory
 export default function ChatHistory(options) {
     const select = document.createElement('select')
@@ -38,6 +39,7 @@ export default function ChatHistory(options) {
         id: options.id,
         refreshHistory: () => { refreshHistory(select) },
         unselectHistory: () => { unselectHistory(select) },
+        selectHistory: (description) => { selectHistory(select, description) },
     }
 
     select.app = selectApp
@@ -45,6 +47,7 @@ export default function ChatHistory(options) {
     return select
 }
 
+// @func refreshHistory
 function refreshHistory(select) {
     if(select) {
         // Remove each option from the select element
@@ -70,8 +73,20 @@ function refreshHistory(select) {
     }
 }
 
+// @func unselectHistory
 function unselectHistory(select) {
     if(select) {
         chatHistory.selectedIndex = 0
+    }
+}
+
+// @func selectHistory
+function selectHistory(select, description) {
+    const options = select.options
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === description) {
+            select.selectedIndex = i
+            break
+        }
     }
 }
