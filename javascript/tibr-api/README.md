@@ -34,7 +34,7 @@ curl -X POST http://localhost:4007/chat \
 ## /api/tags
 
 ```
-curl -X GET http://localhost:4007/api/tags \
+curl -X GET http://localhost:4007/tags \
     --header "accept: application/json"
 ```
 
