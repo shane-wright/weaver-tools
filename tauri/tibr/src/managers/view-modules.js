@@ -1,5 +1,5 @@
 const viewModules = {
-    default: "DashboardView",
+    default: "AiChatView",
     views: {
         DashboardView: {
             modulePath: "../views/dashboard-view",

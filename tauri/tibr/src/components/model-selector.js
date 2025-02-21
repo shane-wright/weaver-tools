@@ -62,7 +62,7 @@ function refreshModels(select) {
                 const option = document.createElement('option')
                 option.value = model.value
                 option.textContent = model.label
-                if(model.value === tibr.data.ai.model) {
+                if(model.value === tibr.settings.ai.model) {
                     option.selected = true
                 }
                 select.appendChild(option)

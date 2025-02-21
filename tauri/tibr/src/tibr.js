@@ -19,9 +19,16 @@ window.onload = async () => {
                 files: [],
                 selectedFiles: [],
             },
-            profile: {},
         },
         view: {},
+        settings: {
+            ai: {
+                model: "gemma2:2b",
+            },
+            view: {
+                default: "AiChatView",
+            },
+        },
     }
 
     initialize()
