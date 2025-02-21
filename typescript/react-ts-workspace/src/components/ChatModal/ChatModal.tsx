@@ -13,10 +13,13 @@ interface ChatDialogApp {
 
 const ChatModal: React.FC = () => {
     const [open, setOpen] = useState(false);
-    const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
+    const [messages, setMessages] = useState<{ role: string, content: string }[]>([
+        { role: 'user', content: 'The color of the day is blue, please remember this' }
+    ]);
     const [message, setMessage] = useState('');
     const [chatDialogApp, setChatDialogApp] = useState<ChatDialogApp | null>(null);
     const [parsedResponse, setParsedResponse] = useState<string>('');
+
 
     const handleSendMessage = async () => {
         try {
