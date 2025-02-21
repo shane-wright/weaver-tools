@@ -47,29 +47,35 @@ const initialize = async () => {
     }
 
     tibr.data.ai.history = await getChatHistory()
-    tibr.data.ai.chatHistoryId = null
 
     tibr.data.ai.availableModels = await getLocalModels()
-
-    if(! tibr.data.ai.model && tibr.data.ai.availableModels.length > 0) {
-        if(tibr.data.profile.preferences) {
-            tibr.data.ai.model = tibr.data.profile.preferences.ai.model
-        }
-        else {
-            tibr.data.ai.model = tibr.data.ai.availableModels[0].name
-        }
-    }
 }
 
 // @func animate
 const animate = async () => {
     tibr.getElement("chatHistory").app.refreshHistory()
     tibr.getElement("modelSelector").app.refreshModels()
-    tibr.getElement("modelSelector").app.selectModel(tibr.data.ai.model)
+    tibr.getElement("modelSelector").app.selectModel(tibr.settings.ai.model)
 
     // add selectedFiles to messages
     if(tibr.data.code.selectedFiles.length > 0) {
         await attachFiles()
+    }
+
+    if(tibr.data.ai.messages.length > 0) {
+        for(let message of tibr.data.ai.messages) {
+            tibr.getElement("chatDialog").app.addMessage(message.role, message.content)
+        }
+
+        if(tibr.data.ai.chatHistoryId) {
+            let historyItemId = tibr.data.ai.chatHistoryId
+            for(let historyItem of tibr.data.ai.history) {
+                if(historyItem.id === historyItemId) {
+                    let chatHistory = tibr.getElement("chatHistory")
+                    chatHistory.app.selectHistory(historyItem.description)
+                }
+            }
+        }
     }
 
     tibr.getElement("chatInput").focus()
@@ -96,14 +102,14 @@ const attachFiles = async () => {
     for(let file of tibr.data.code.selectedFiles) {
         let fileMessage = ""
 
-        fileMessage = `# Here's a file attachment for reference:\n\n`
-        fileMessage = `## File Attachment:\n\n ${file.name}\n\n`
-        fileMessage = `## File Content:\n\n`
+        fileMessage = `## FILE ATTACHMENT\n\n`
+        fileMessage += `${file.name}\n\n`
+        fileMessage += `## FILE CONTENT:\n\n`
         fileMessage += `---\n`
-        fileMessage += `${file.content}\n`
+        fileMessage += `<pre>${file.content}</pre>\n`
         fileMessage += `---\n\n`
         fileMessage += `
-## Assistant instructions
+## ASSISTANT INSTRUCTIONS
 
 Please do quiet inspection of the file and be prepard to answer questions.
 
@@ -118,8 +124,6 @@ Please answer with "File attached: ${file.name}" and a one-sentence summary of t
 
         if (aiResponse) {
             toast.app.show(`${file.name} attached`)
-
-            chatDialog.app.addMessage('ai', aiResponse.message.content)
 
             tibr.data.ai.messages.push({ role: 'assistant', content: aiResponse.message.content })
         }
@@ -226,6 +230,9 @@ const renderChatHistory = () => {
                         tibr.data.ai.chatHistoryId = historyItem.id
                         tibr.data.ai.messages = historyItem.messages
 
+                        let chatHistory = tibr.getElement("chatHistory")
+                        chatHistory.app.selectHistory(historyItem.description)
+
                         for(let message of tibr.data.ai.messages) {
                             chatDialog.app.addMessage(message.role, message.content)
                         }
@@ -241,7 +248,7 @@ const renderModelSelector = () => {
     return ModelSelector({
         id: "modelSelector",
         onChange: (e) => {
-            tibr.data.ai.model = e.target.value
+            tibr.settings.ai.model = e.target.value
         }
     })
 }
@@ -302,7 +309,7 @@ const renderChatForm = () => {
 
             chatInput.value = ""
 
-            if(tibr.data.ai.model === "draft") {
+            if(tibr.settings.ai.model === "draft") {
                 createDraftChat(message)
                 tibr.getElement("chatInput").focus()
             }
@@ -395,7 +402,7 @@ const fetchAIResponse = async () => {
     try {
         const timeoutMs = 90000; // 90 seconds
         const aiResponse = await Promise.race([
-            getAIResponse(tibr.data.ai.model, tibr.data.ai.messages),
+            getAIResponse(tibr.settings.ai.model, tibr.data.ai.messages),
             new Promise((_, reject) =>
                 setTimeout(() => reject(new Error('Request timed out')), timeoutMs)
             )

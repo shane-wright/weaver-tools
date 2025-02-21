@@ -136,6 +136,9 @@ const renderSaveButton = () => {
                 tibr.data.profile.preferences.view = view
             }
 
+
+            // TODO: save model
+
             toast.app.show("Profile saved")
         }
     })

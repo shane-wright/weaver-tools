@@ -54,7 +54,7 @@ function refreshViewSelector(select) {
                     const option = document.createElement('option')
                     option.value = viewName
                     option.textContent = view.label
-                    if(tibr.data.profile.preferences && viewName === tibr.data.profile.preferences.view.default) {
+                    if(viewName === tibr.settings.view.default) {
                         option.selected = true
                     }
                     select.appendChild(option)

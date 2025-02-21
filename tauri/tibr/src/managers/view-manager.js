@@ -3,12 +3,7 @@ import viewModules from "./view-modules.js"
 // @func renderView
 const renderView = async (viewName) => {
     if(!viewName) {
-        if(tibr.data.profile.preferences) {
-            viewName = tibr.data.profile.preferences.view.default
-        }
-        else {
-            viewName = viewModules.default
-        }
+        viewName = tibr.settings.view.default
     }
 
     tibr.view.name = viewName
