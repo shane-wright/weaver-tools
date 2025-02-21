@@ -13,6 +13,7 @@ interface ChatDialogApp {
 
 const ChatModal: React.FC = () => {
     const [open, setOpen] = useState(false);
+    const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
     const [message, setMessage] = useState('');
     const [response, setResponse] = useState('');
     const [chatDialogApp, setChatDialogApp] = useState<ChatDialogApp | null>(null);
@@ -21,13 +22,18 @@ const ChatModal: React.FC = () => {
         try {
             console.log("MESSAGE", message);
 
+            setMessages(prevMessages => [...prevMessages, { role: 'user', content: message }]);
+
             if (chatDialogApp) {
                 chatDialogApp.addMessage('user', message);
             }
 
-            const response = await apiClient.post('/chat', { model: "gemma2:2b", messages: [{ "role": "user", "content": message }]});
+            console.log([...messages, { role: 'user', content: message }])
+
+            const response = await apiClient.post('/chat', { model: "gemma2:2b", messages: [...messages, { role: 'user', content: message }] });
 
             setResponse(response.data.message.content);
+            setMessages(prevMessages => [...prevMessages, { role: 'assistant', content: response.data.message.content }]);
             if (chatDialogApp) {
                 chatDialogApp.addMessage('assistant', response.data.message.content);
             }
@@ -116,6 +122,7 @@ const ChatModal: React.FC = () => {
                             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                                 <TextField
                                     value={message}
+                                    value={{ role: 'user', content: message }.content}
                                     onChange={(e) => setMessage(e.target.value)}
                                     placeholder="Type your message here"
                                     variant="outlined"
