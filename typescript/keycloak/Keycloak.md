@@ -4,7 +4,7 @@
 
 Hark, brave developer! You stand at the threshold of a grand quest—a journey to master the arcane arts of **Keycloak**, the guardian of realms and secrets. Your mission, should you choose to accept it, is to forge a bond between the **React Frontend** and the **Node.js Backend**, using the mystical powers of Keycloak to protect your paths and ensure only the worthy may pass.
 
-Fear not, for I, Gandalf the Grey, shall be your guide. Together, we shall navigate the labyrinth of code, configure the sacred artifacts, and bring forth a Proof of Concept (POC) that shall stand as a testament to your skill and determination.
+Fear not, for I shall be your guide. Together, we shall navigate the labyrinth of code, configure the sacred artifacts, and bring forth a Proof of Concept (POC) that shall stand as a testament to your skill and determination.
 
 Let us begin.
 
