@@ -108,7 +108,8 @@ function selectItem(select, itemName) {
         let stigName = options[i].value.toUpperCase()
         if (stigName.startsWith(itemName)) {
             select.selectedIndex = i
-            console.log("displayStig: selectItem (StigSelector Component)")
+            console.log(`displayStig ${stigName} selectItem (StigSelector Component)`)
+            tibr.data.stig.name = stigName
             tibr.view.app.displayStig(stigName)
             break
         }

@@ -160,7 +160,9 @@ const renderStigSelector = () => {
         id: "stigSelector",
         onChange: (e) => {
             let stigName = e.target.value
-            console.log("displayStig: renderStigSelector (onChange)")
+
+            tibr.data.stig.name = stigName
+            console.log(`displayStig ${stigName} renderStigSelector (onChange)`)
             displayStig(stigName)
         }
     })
