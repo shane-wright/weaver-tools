@@ -1,5 +1,12 @@
 # STIG AI CHAT
 
+## weaver-tools
+
+```
+cd ~/workspace/weaver-tools
+git pull
+```
+
 ## rust
 
 Install <a href="https://www.rust-lang.org/tools/install">rust</a>
@@ -22,24 +29,25 @@ Pull granite3.1-dense:2b
 ollama pull granite3.1-dense:2b
 ```
 
-## weaver-tools
+Create stig model
 
 ```
-cd ~/workspace/weaver-tools
-git pull
+cd tauri/stig
+ollama create stig -f Modelfile
 ```
+
 
 ## dev
 
 ```
-cd ~/workspace/weaver-tools/tauri/stig
+cd tauri/stig
 cargo tauri dev
 ```
 
 ## build/install
 
 ```
-cd ~/workspace/weaver-tools/tauri/stig
+cd tauri/stig
 cargo tauri build
 ```
 
