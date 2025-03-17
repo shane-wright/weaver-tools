@@ -27,7 +27,7 @@ export default function ChatDialog(options) {
     if (options.style) {
         Object.assign(chatDialog.style, options.style)
     }
-    chatDialog.style.overflowY = 'scroll'
+    chatDialog.style.overflow = 'hidden'
 
     let chatDialogApp = {
         id: options.id,
