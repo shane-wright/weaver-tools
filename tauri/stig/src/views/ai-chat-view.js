@@ -200,9 +200,10 @@ const renderChatDialog = () => {
     let chatDialogContainer = Container({
         id: "chatDialogContainer",
         style: {
-            flexGrow: 1,
+            flex: "1 1 auto",
             overflowY: "auto",
             paddingBottom: "10px",
+            minHeight: "0",
         }
     })
 
@@ -229,6 +230,9 @@ const renderChatForm = () => {
     let chatForm = ChatForm({
         id: "chatForm",
         responsive: true,
+        style: {
+            flex: "0 0 auto",
+        },
         onSubmit: () => {
             let chatInput = tibr.getElement("chatInput")
             let message = chatInput.value
