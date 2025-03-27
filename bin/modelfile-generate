@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Define the output Modelfile
+MODELFILE="Modelfile"
+
+# Define directories to exclude
+EXCLUDE_DIRS=(
+  "node_modules"
+  ".cargo"
+  "target"
+  "build"
+  "dist"
+  ".git"
+  ".next"
+  ".vscode"
+  ".idea"
+  "coverage"
+  "out"
+)
+
+# Build find command exclude options
+EXCLUDE_OPTS=()
+for dir in "${EXCLUDE_DIRS[@]}"; do
+  EXCLUDE_OPTS+=(-not -path "*/$dir/*")
+done
+
+# Clear existing Modelfile
+echo "FROM granite-code:3b" > "$MODELFILE"
+echo >> "$MODELFILE"
+echo "SYSTEM \"\"\"" >> "$MODELFILE"
+
+# Find and process all relevant source files
+while IFS= read -r -d $'\0' file; do
+  # Add file path as a header
+  echo "=== FILE: $file ===" >> "$MODELFILE"
+  echo >> "$MODELFILE"
+  
+  # Add file content, ensuring it's treated as text
+  cat "$file" >> "$MODELFILE"
+  
+  # Add spacing between files
+  echo >> "$MODELFILE"
+  echo >> "$MODELFILE"
+done < <(find . -type f \( -name "*.js" -o -name "*.ts" -o -name "*.rs" \) "${EXCLUDE_OPTS[@]}" -print0)
+
+# Close the SYSTEM prompt
+echo "\"\"\"" >> "$MODELFILE"
+
+echo "Modelfile created successfully with all source files included in SYSTEM prompt."
