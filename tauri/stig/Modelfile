@@ -1,0 +1,6 @@
+FROM granite3.1-dense:2b
+
+SYSTEM "<System instructions go here>"
+
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
