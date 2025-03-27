@@ -41,7 +41,7 @@ while IFS= read -r -d $'\0' file; do
   # Add spacing between files
   echo >> "$MODELFILE"
   echo >> "$MODELFILE"
-done < <(find . -type f \( -name "*.js" -o -name "*.ts" -o -name "*.rs" \) "${EXCLUDE_OPTS[@]}" -print0)
+done < <(find . -type f \( -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.rs" \) "${EXCLUDE_OPTS[@]}" -print0)
 
 # Close the SYSTEM prompt
 echo "\"\"\"" >> "$MODELFILE"
