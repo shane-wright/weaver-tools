@@ -25,7 +25,7 @@ for dir in "${EXCLUDE_DIRS[@]}"; do
 done
 
 # Clear existing Modelfile
-echo "FROM granite-code:3b" > "$MODELFILE"
+echo "FROM granite3.1-dense:2b" > "$MODELFILE"
 echo >> "$MODELFILE"
 echo "SYSTEM \"\"\"" >> "$MODELFILE"
 
