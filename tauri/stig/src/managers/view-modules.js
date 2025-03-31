@@ -10,6 +10,11 @@ const viewModules = {
             label: "STIG AI",
             showInHeader: true,
         },
+        CodeChatView: {
+            modulePath: "../views/code-chat-view",
+            label: "CODE AI",
+            showInHeader: true,
+        },
     }
 }
 

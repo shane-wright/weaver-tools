@@ -19,6 +19,16 @@ window.onload = async () => {
                 availableModels: [],
                 sessionId: "",
             },
+            projects: {
+                projectPath: "",
+                files: [],
+                recents: [],
+                selectedFile: {
+                    name: "",
+                    path: "",
+                    content: "",
+                },
+            },
             views: {
                 default: "StigChatView",
             },

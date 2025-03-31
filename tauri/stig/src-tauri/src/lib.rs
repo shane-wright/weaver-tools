@@ -15,6 +15,12 @@ struct AppState {
     client: reqwest::Client,
 }
 
+#[derive(Serialize)]
+struct ProjectInfo {
+    files: Vec<String>,
+    directories: Vec<String>,
+}
+
 // @function chat
 // @description Chat function using the shared client from state
 #[tauri::command]
@@ -63,6 +69,31 @@ async fn get_local_models(state: State<'_, AppState>) -> Result<Vec<serde_json::
         .collect();
 
     Ok(models)
+}
+
+// @function get_project_info
+#[tauri::command]
+async fn get_project_info(project_path: String) -> Result<ProjectInfo, String> {
+    let mut files = Vec::new();
+    let mut directories = Vec::new();
+    let mut dir = tokio::fs::read_dir(&project_path).await.map_err(|e| e.to_string())?;
+
+    while let Some(entry) = dir.next_entry().await.map_err(|e| e.to_string())? {
+        let path = entry.path();
+        if path.is_file() {
+            if let Some(file_name) = path.file_name().and_then(|s| s.to_str()) {
+                files.push(file_name.to_string());
+            }
+        } else if path.is_dir() {
+            if let Some(dir_name) = path.file_name().and_then(|s| s.to_str()) {
+                directories.push(dir_name.to_string());
+            }
+        }
+    }
+
+    files.sort();
+    directories.sort();
+    Ok(ProjectInfo { files, directories })
 }
 
 // @function read_file
@@ -198,6 +229,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             chat,
             get_local_models,
+            get_project_info,
             read_file,
             save_file,
             export_markdown
