@@ -150,4 +150,61 @@ flowchart TD
 - **Weighted?** Add a **5-10lb vest** to Beast/Crab movements for strength stimulus.  
 - **Rehab Priority:** Spend extra time on **Scorpion Reach** if desk-bound, **Beast Pull-Through** if shoulders are fatigued from training.  
 
-Need modifications for a specific goal (e.g., more hip focus, less wrist demand)?
+
+#Diet
+
+For **24-hour fasts** (and longer), the goal is to **support autophagy, electrolytes, and energy** *without breaking the fast*. Here’s exactly what to ingest—and what to avoid—to maximize benefits while minimizing discomfort.  
+
+---
+
+### **✅ What to Ingest During a 24-Hour Fast**  
+| **Category**       | **What to Take**                          | **Why?**                                                                 | **Dosing/Timing**                     |  
+|--------------------|-------------------------------------------|--------------------------------------------------------------------------|---------------------------------------|  
+| **Electrolytes**   | - **Sodium** (Himalayan salt, sea salt)   | Prevents headaches, fatigue, and dizziness (lost through urine/sweat).  | ½ tsp in water (2-3x during fast).    |  
+|                    | - **Potassium** (NoSalt, cream of tartar) | Balances sodium; prevents muscle cramps/heart palpitations.              | ¼ tsp in water (1-2x).                |  
+|                    | - **Magnesium** (Glycinate, citrate)      | Reduces muscle cramps, improves sleep. Avoid oxide (poor absorption).   | 200-400mg before bed.                 |  
+| **Hydration**      | - **Water** (still or sparkling)          | Prevents dehydration. Add lemon/lime *wedge* (no juice) for minerals.   | 2-3L total (sip steadily).            |  
+| **Autophagy Boosters** | - **Black coffee** (no sugar/cream)    | Increases autophagy by 30-50% (per rodent studies).                      | 1-2 cups max (avoid if cortisol-sensitive). |  
+|                    | - **Green tea** (plain, no additives)     | EGCG enhances fat oxidation + cellular cleanup.                         | 2-3 cups spaced out.                  |  
+| **Gut Support**    | - **Bone broth** (controversial)          | *Only if weak/lightheaded*—technically breaks fast but spares muscle.   | 1 cup max (homemade, no additives).   |  
+
+---
+
+### **❌ What to Avoid (Breaks Fast/Blocks Autophagy)**  
+- **Sweeteners** (even stevia/monk fruit)—can trigger insulin.  
+- **BCAAs/protein**—activates mTOR (blocks autophagy).  
+- **Juices or milk**—spikes blood sugar.  
+- **Gum/mints**—artificial sweeteners may increase hunger.  
+
+---
+
+### **Sample 24-Hour Fast Protocol**  
+**6 AM:**  
+- Black coffee + ½ tsp salt in water.  
+
+**10 AM:**  
+- Green tea + ¼ tsp potassium (NoSalt).  
+
+**2 PM:**  
+- Sparkling water + lemon wedge.  
+
+**6 PM:**  
+- Magnesium glycinate + pinch of salt.  
+
+**10 PM (if needed):**  
+- *Optional* bone broth (only if dizzy).  
+
+---
+
+### **Pro Tips for Extended Fasts**  
+1. **Train Smart:** Do **low-intensity cardio or Animal Flow** (no heavy lifting).  
+2. **Sleep Deeply:** Fasting increases **growth hormone**—prioritize 7-9 hours.  
+3. **Break Fast Wisely:** Start with **easily digestible protein + healthy fats** (e.g., eggs, avocado).  
+
+---
+
+### **When to Stop Immediately**  
+- Extreme dizziness, irregular heartbeat, or vomiting (likely electrolyte imbalance).  
+- Hypoglycemia symptoms (shaking, confusion)—try **pinch of salt under tongue**.  
+
+Need a tweaked version for your activity level (e.g., fasting on training days)?
