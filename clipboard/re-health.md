@@ -80,4 +80,59 @@ Animal Flow is **movement-based rehab**—improving mobility, joint resilience, 
 - **Autophagy:** Notice clearer skin, better sleep, joint pain reduction.  
 - **Animal Flow:** Improved shoulder/hip mobility, fewer "clicky" joints.  
 
-Want to go deeper into either? (e.g., exact fasting supplements, advanced Animal Flow sequences?)
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Dynamic Warm-Up: 2 min]
+    B --> B1[Wrist Circles + Bear Hold Rocks: 30 sec]
+    B --> B2[Cat-Cow + Lateral Shifts: 30 sec]
+    B --> B3[Scapular Push-Up → Down Dog: 30 sec]
+    B --> B4[Hip Circles in Deep Squat: 30 sec]
+    
+    B --> C[Core Flow: 3 Rounds x 4 min]
+    C --> C1[Beast → Crab Reach → Ape → Scorpion: 1 min]
+    C1 --> C1a["Beast Hold (10 sec)<br>→ Crab Reach x3/side<br>→ Ape Swing<br>→ Scorpion Hold/side"]
+    
+    C --> C2[Bear → Lateral Undulation → Frogger: 1 min]
+    C2 --> C2a["Bear Crawl Fwd/Bwd (10 sec)<br>→ Lateral Undulation (10 sec)<br>→ Frogger Jump x3"]
+    
+    C --> C3[Loaded Beast → Crab Walk: 1 min]
+    C3 --> C3a["Beast Pull-Through x5<br>→ Crab Walk 5 steps"]
+    
+    C --> C4[Freestyle Primal Play: 1 min]
+    
+    C --> D[Cooldown: 1 min]
+    D --> D1[Slow Scorpion Reaches: 30 sec]
+    D --> D2[Dead Hang + Leg Swings: 30 sec]
+```
+
+
+---
+
+### **Animal Flow Routine Exercise Guide**
+| **Exercise**               | **Technique Cues**                                                                 | **Primary Muscles Targeted**                     | **Rehab/Rejuvenation Benefit**                                                                 |
+|----------------------------|------------------------------------------------------------------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------------|
+| **Wrist Circles + Bear Hold Rocks** | Rotate wrists in all directions, then rock forward/back in Beast position (knees hover). | Forearms, shoulders, core.                      | Prepares wrists/shoulders for load; enhances synovial fluid circulation.                        |
+| **Cat-Cow + Lateral Shifts**       | Arch/spine with breath, then shift hips side-to-side in tabletop.                   | Spinal erectors, obliques, hips.                | Restores spinal segmentation + rib mobility.                                                   |
+| **Scapular Push-Up → Down Dog**    | Protract/retract scapulae in plank, then push hips back to Down Dog.               | Serratus anterior, lats, hamstrings.            | Rehabilitates scapular control (critical for shoulder health).                                 |
+| **Hip Circles in Deep Squat**      | Hold squat, rotate hips in circles (keep heels down).                              | Hip flexors, glutes, ankles.                    | Mobilizes stiff hips; improves squat depth.                                                    |
+| **Beast Hold**                     | Knees hover 1" off ground, ribs tucked, tense entire body.                         | Deep core, quads, shoulders.                    | Builds anti-extension core strength; protects spine under load.                                |
+| **Crab Reach**                     | Lift hips in Crab position, reach one hand across to opposite foot.                | Thoracic spine, triceps, glutes.                | Reverses hunched posture; opens anterior chain.                                                |
+| **Ape Swing**                      | From squat, swing arms explosively to one side, land softly.                       | Adductors, obliques, shoulders.                 | Trains rotational power + deceleration (injury prevention).                                    |
+| **Scorpion Reach**                 | Lying prone, reach heel to opposite hand behind.                                   | Rotator cuff, thoracic spine, hip flexors.      | Restores rotational mobility; counters sedentary stiffness.                                    |
+| **Bear Crawl**                     | Crawl forward/backward with knees 1" off ground.                                  | Shoulders, wrists, core.                        | Enhances cross-body coordination + shoulder stability.                                         |
+| **Lateral Undulation**             | Sideways Bear Crawl with rib cage leading.                                        | Obliques, serratus, hip abductors.              | Trains lateral fascial lines (often neglected in gym training).                                |
+| **Frogger Jump**                   | From deep squat, explode up, land silently.                                       | Quads, Achilles, core.                          | Builds tendon resilience for jumping/landing.                                                 |
+| **Beast Pull-Through**             | Drag imaginary weight under torso while in Beast position.                         | Rotator cuff, obliques, hip flexors.            | Rehabs shoulder/hip stability under tension.                                                  |
+| **Crab Walk**                      | Walk forward/backward in Crab position (hips high).                               | Glutes, triceps, hamstrings.                    | Strengthens posterior chain; counters excessive sitting.                                       |
+| **Freestyle Primal Play**          | Improvise rolls, jumps, or hangs.                                                 | Full-body integration.                          | Enhances neuroplasticity + creativity in movement.                                             |
+| **Dead Hang + Leg Swings**         | Passive hang from bar, add gentle leg swings.                                     | Lats, shoulders, spinal decompression.          | Resets shoulder alignment; relieves spinal compression.                                        |
+
+---
+
+### **Key Notes for Elite Performance**  
+- **Fasted?** Focus on **slow eccentrics** (e.g., 3-sec Crab Reach descents) to amplify autophagy.  
+- **Weighted?** Add a **5-10lb vest** to Beast/Crab movements for strength stimulus.  
+- **Rehab Priority:** Spend extra time on **Scorpion Reach** if desk-bound, **Beast Pull-Through** if shoulders are fatigued from training.  
+
+Need modifications for a specific goal (e.g., more hip focus, less wrist demand)?
