@@ -34,7 +34,7 @@ Animal Flow is **movement-based rehab**—improving mobility, joint resilience, 
 #### **Key Movements for Rejuvenation**  
 **A. Foundational Flow (Daily Practice):**  
 1. **Bear Crawl** – Resets shoulder/scapula stability.  
-2. **Crab Reach** – Opens thoracic spine, counteracts hunching.  
+2. **Crab Reach** – Opens the thoracic spine, counteracts hunching.  
 3. **Ape Swings** – Dynamic hip mobility + core tension.  
 4. **Scorpion Reach** – Rotational spine health.  
 
@@ -115,9 +115,9 @@ flowchart TD
 | **Wrist Circles + Bear Hold Rocks** | Rotate wrists in all directions, then rock forward/back in Beast position (knees hover). | Forearms, shoulders, core.                      | Prepares wrists/shoulders for load; enhances synovial fluid circulation.                        |
 | **Cat-Cow + Lateral Shifts**       | Arch/spine with breath, then shift hips side-to-side in tabletop.                   | Spinal erectors, obliques, hips.                | Restores spinal segmentation + rib mobility.                                                   |
 | **Scapular Push-Up → Down Dog**    | Protract/retract scapulae in plank, then push hips back to Down Dog.               | Serratus anterior, lats, hamstrings.            | Rehabilitates scapular control (critical for shoulder health).                                 |
-| **Hip Circles in Deep Squat**      | Hold squat, rotate hips in circles (keep heels down).                              | Hip flexors, glutes, ankles.                    | Mobilizes stiff hips; improves squat depth.                                                    |
-| **Beast Hold**                     | Knees hover 1" off ground, ribs tucked, tense entire body.                         | Deep core, quads, shoulders.                    | Builds anti-extension core strength; protects spine under load.                                |
-| **Crab Reach**                     | Lift hips in Crab position, reach one hand across to opposite foot.                | Thoracic spine, triceps, glutes.                | Reverses hunched posture; opens anterior chain.                                                |
+| **Hip Circles in Deep Squat**      | Hold squat, rotate hips in circles (keep heels down).                              | Hip flexors, glutes, and ankles.                    | Mobilizes stiff hips; improves squat depth.                                                    |
+| **Beast Hold**                     | Knees hover 1" off the ground, ribs tucked, tense entire body.                         | Deep core, quads, shoulders.                    | Builds anti-extension core strength; protects spine under load.                                |
+| **Crab Reach**                     | Lift hips in Crab position, reach one hand across to the opposite foot.                | Thoracic spine, triceps, glutes.                | Reverses hunched posture; opens anterior chain.                                                |
 | **Ape Swing**                      | From squat, swing arms explosively to one side, land softly.                       | Adductors, obliques, shoulders.                 | Trains rotational power + deceleration (injury prevention).                                    |
 | **Scorpion Reach**                 | Lying prone, reach heel to opposite hand behind.                                   | Rotator cuff, thoracic spine, hip flexors.      | Restores rotational mobility; counters sedentary stiffness.                                    |
 | **Bear Crawl**                     | Crawl forward/backward with knees 1" off ground.                                  | Shoulders, wrists, core.                        | Enhances cross-body coordination + shoulder stability.                                         |
@@ -129,9 +129,24 @@ flowchart TD
 | **Dead Hang + Leg Swings**         | Passive hang from bar, add gentle leg swings.                                     | Lats, shoulders, spinal decompression.          | Resets shoulder alignment; relieves spinal compression.                                        |
 
 ---
+- Wrist Circles + Bear Hold Rocks (https://www.youtube.com/watch?v=TWzJgjz-XO4)
+- Cat-Cow + Lateral Shifts (https://www.youtube.com/watch?v=G9lADOadlmA&pp=ygUYQ2F0LUNvdyArIExhdGVyYWwgU2hpZnRz)
+- Scapular Push-Up → Down Dog(https://www.youtube.com/watch?v=QRWQfIgtpY8&pp=ygUdU2NhcHVsYXIgUHVzaC1VcCDihpIgRG93biBEb2c%3D)
+- Hip Circles in Deep Squat (https://www.youtube.com/shorts/vur9ps_EM6E)
+- Beast Hold (https://www.youtube.com/watch?v=bLGd7ZzvjVo&pp=ygUcYmVhc3QgaG9sZCBtb3ZlbWVudCBjcm9zc2ZpdA%3D%3D)
+- Crab Reach (https://www.youtube.com/watch?v=rsBVxRzMMik&pp=ygUKQ3JhYiBSZWFjaNIHCQmwCQGHKiGM7w%3D%3D)
+- Ape Swing ()
+- Scorpion Reach (https://www.youtube.com/watch?v=bmENm-7Ut_Y&pp=ygUOc2NvcnBpb24gcmVhY2g%3D)
+- Bear Crawl (https://www.youtube.com/watch?v=qpaxI2m75RY&pp=ygUTYmVhciBjcmF3bCBleGVyY2lzZQ%3D%3D)
+- Lateral Undulation (https://www.youtube.com/shorts/0U47qlHGmog)
+- Frogger Jump (https://www.youtube.com/watch?v=ueGvIOHMZG0&pp=ygUXZnJvZ2dlciBqdW1wZXIgZXhlcmNpc2U%3D)
+- Beast Pull-Through (https://www.youtube.com/watch?v=1GWbVhsFvs0&pp=ygUSQmVhc3QgUHVsbC1UaHJvdWdo)
+- Crab Walk (https://www.youtube.com/watch?v=NZnV6F9OGHY&pp=ygUSY3JhYiB3YWxrIGV4ZXJjaXNl0gcJCbAJAYcqIYzv)
+- Freestyle Primal Play 
+- Dead Hang + Leg Swings 
 
 ### **Key Notes for Elite Performance**  
-- **Fasted?** Focus on **slow eccentrics** (e.g., 3-sec Crab Reach descents) to amplify autophagy.  
+- **Fasted?** Focus on **slow eccentric** (e.g., 3-sec Crab Reach descents) to amplify autophagy.  
 - **Weighted?** Add a **5-10lb vest** to Beast/Crab movements for strength stimulus.  
 - **Rehab Priority:** Spend extra time on **Scorpion Reach** if desk-bound, **Beast Pull-Through** if shoulders are fatigued from training.  
 
