@@ -7,6 +7,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // Import screens
 import HomeScreen from './src/screens/HomeScreen';
+import IntakeScreen from './src/screens/IntakeScreen';
+import OutputScreen from './src/screens/OutputScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +33,16 @@ export default function App() {
             name="Home" 
             component={HomeScreen} 
             options={{ title: 'Re-Health' }} 
+          />
+          <Stack.Screen 
+            name="Intake" 
+            component={IntakeScreen} 
+            options={{ title: 'Intake' }} 
+          />
+          <Stack.Screen 
+            name="Output" 
+            component={OutputScreen} 
+            options={{ title: 'Output' }} 
           />
         </Stack.Navigator>
       </NavigationContainer>

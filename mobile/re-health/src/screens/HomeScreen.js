@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -10,19 +10,31 @@ const HomeScreen = () => {
           <Text style={styles.subtitle}>Fitness Support App</Text>
         </View>
         
-        <View style={styles.card}>
+        <TouchableOpacity 
+          style={styles.card}
+          onPress={() => navigation.navigate('Intake')}
+        >
           <Text style={styles.cardTitle}>Autophagy Focus</Text>
           <Text style={styles.cardDescription}>
             Support cellular renewal through strategic fasting and nutrition
           </Text>
-        </View>
+          <View style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>Go to Intake →</Text>
+          </View>
+        </TouchableOpacity>
 
-        <View style={styles.card}>
+        <TouchableOpacity 
+          style={styles.card}
+          onPress={() => navigation.navigate('Output')}
+        >
           <Text style={styles.cardTitle}>Animal Flow</Text>
           <Text style={styles.cardDescription}>
             Movement-based rehabilitation mimicking animals
           </Text>
-        </View>
+          <View style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>Go to Output →</Text>
+          </View>
+        </TouchableOpacity>
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Nutrition Guide</Text>
@@ -76,6 +88,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
+    marginBottom: 16,
+  },
+  buttonContainer: {
+    backgroundColor: '#4A90E2',
+    alignSelf: 'flex-start',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '600',
+    fontSize: 14,
   },
 });
 
