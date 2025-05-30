@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import FastingTimerContainer from '../components/FastingTimer/FastingTimerContainer';
+import DietStatusContainer from '../components/DietStatus/DietStatusContainer';
+import MealProtocolContainer from '../components/MealProtocol/MealProtocolContainer';
 
 /**
  * IntakeScreen - Central hub for managing fasting schedules and viewing daily diet protocols
@@ -23,21 +25,13 @@ const IntakeScreen = () => {
         {/* Diet Status Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Current Diet Day</Text>
-          <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>
-              DietStatus components will be implemented here
-            </Text>
-          </View>
+          <DietStatusContainer />
         </View>
         
         {/* Meal Protocol Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Today's Meals</Text>
-          <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>
-              MealProtocol components will be implemented here
-            </Text>
-          </View>
+          <MealProtocolContainer />
         </View>
       </ScrollView>
     </SafeAreaView>
