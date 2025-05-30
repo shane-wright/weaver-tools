@@ -42,13 +42,20 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
+        <ThemedText type="subtitle">Step 3: Explore the Re-Health App</ThemedText>
         <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+          {`The Re-Health app features Intake and Output sections for tracking your health regimen. 
+          The Intake screen helps manage nutrition and fasting, while the Output screen 
+          supports physical activities like Animal Flow movements.`}
+        </ThemedText>
+      </ThemedView>
+      
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 4: Navigate with FAB</ThemedText>
+        <ThemedText>
+          {`The Floating Action Button (FAB) provides a modern navigation experience. 
+          Press it to expand the menu, then select your destination. 
+          The FAB includes haptic feedback and smooth animations for better user experience.`}
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
