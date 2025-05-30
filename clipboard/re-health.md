@@ -247,7 +247,7 @@ Here’s your **full weekly schedule** (adjusted to your 24-hour fast from **Thu
 | **Wed**  | — (Fasted)               | Bison + Pineapple        | Sardines + Squash        | Glycogen replenishment.               |  
 | **Thu**  | — (24h Fast Starts 2 PM) | Bone Broth (2 PM Fri)    | Ribeye + Avocado         | Break fast gently.                    |  
 | **Fri**  | Eggs + Avocado           | Chicken + Jasmine Rice   | —                       | Moderate carbs post-workout.          |  
-| **Sat**  | Oysters + Blueberries    | Ribeye + Mushrooms       | Dark Chocolate (85%)     | Feast day for mental satisfaction.     |  
+| **Sat**  | Cheat    | Cheat      | Cheat     | Feast day for mental satisfaction.     |  
 | **Sun**  | — (Optional 36h Fast)    | Bone Broth → Salmon      | —                       | Prioritize omega-3s for recovery.     |  
 
 ---
