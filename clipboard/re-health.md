@@ -208,3 +208,59 @@ For **24-hour fasts** (and longer), the goal is to **support autophagy, electrol
 - Hypoglycemia symptoms (shaking, confusion)—try **pinch of salt under tongue**.  
 
 Need a tweaked version for your activity level (e.g., fasting on training days)?
+
+
+
+
+---
+
+# Schedule
+
+Here’s your **full weekly schedule** (adjusted to your 24-hour fast from **Thursday 2 PM → Friday 2 PM**) and a **separate diet table** for meal planning.  
+
+---
+
+### **Weekly Schedule (Rejuvenation Focus)**  
+**Key:**  
+- **IF** = Intermittent Fasting | **AF** = Animal Flow  
+- **🔥** = Strength | **🏃** = Cardio | **💤** = Recovery  
+
+| **Day**  | **Fasting Window**   | **Primary Focus**       | **Key Activities**                                  |  
+|----------|----------------------|-------------------------|----------------------------------------------------|  
+| **Mon**  | 16/8 (Skip Breakfast)| Metabolic Reset         | AM: Fasted AF + Zone 2 Cardio<br>PM: Upper Body Lift |  
+| **Tue**  | 18/6 (Late Lunch)    | Strength + Mobility     | Lower Body Lift + Loaded AF (weighted vest)        |  
+| **Wed**  | 16/8 (Skip Breakfast)| Power/Explosiveness     | Power Cleans + Sprints + Mobility AF               |  
+| **Thu**  | **24h Fast** (2 PM → 2 PM) | Deep Autophagy     | Light AF + Electrolytes + Sauna                    |  
+| **Fri**  | 12h Fast (8 PM → 8 AM) | Refeed + Rebuild    | Break fast with eggs/avocado → PM Lift              |  
+| **Sat**  | 14/10 (Overnight)    | Feast + Play            | Sprint Intervals + Primal Movement Hike            |  
+| **Sun**  | Optional 36h Fast    | Recharge                | Float Tank + Restorative Yoga/AF                   |  
+
+---
+
+### **Weekly Diet Plan (Optimized for Rejuvenation)**  
+**Goals:** Support fasting, muscle retention, and autophagy.  
+
+| **Day**  | **Meal 1**               | **Meal 2**               | **Meal 3 (If Fed)**      | **Key Notes**                          |  
+|----------|--------------------------|--------------------------|--------------------------|----------------------------------------|  
+| **Mon**  | — (Fasted)               | Ribeye + Sweet Potato    | Salmon + Asparagus       | High-protein post-fast.                |  
+| **Tue**  | Venison + White Rice     | Eggs + Kimchi + Almond Butter | —                  | Carbs post-lift.                      |  
+| **Wed**  | — (Fasted)               | Bison + Pineapple        | Sardines + Squash        | Glycogen replenishment.               |  
+| **Thu**  | — (24h Fast Starts 2 PM) | Bone Broth (2 PM Fri)    | Ribeye + Avocado         | Break fast gently.                    |  
+| **Fri**  | Eggs + Avocado           | Chicken + Jasmine Rice   | —                       | Moderate carbs post-workout.          |  
+| **Sat**  | Oysters + Blueberries    | Ribeye + Mushrooms       | Dark Chocolate (85%)     | Feast day for mental satisfaction.     |  
+| **Sun**  | — (Optional 36h Fast)    | Bone Broth → Salmon      | —                       | Prioritize omega-3s for recovery.     |  
+
+---
+
+### **Critical Diet Rules:**  
+1. **Fasting Days:** Hydrate with electrolytes (sodium, potassium, magnesium).  
+2. **Post-Fast:** Always break with **protein + fat** (e.g., eggs, avocado) before carbs.  
+3. **Feast Days:** Carb-heavy meals go **post-workout** (e.g., rice, sweet potato).  
+4. **Avoid:** Processed sugar, seed oils, alcohol (blocks autophagy).  
+
+---
+
+### **Optional Upgrades:**  
+- **For More Autophagy:** Add **spermidine** (wheat germ, aged cheese) on fed days.  
+- **For Gut Health:** Fermented foods (kimchi, sauerkraut) daily.  
+
