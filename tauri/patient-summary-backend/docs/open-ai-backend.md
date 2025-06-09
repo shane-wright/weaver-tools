@@ -518,7 +518,7 @@ For production use, consider implementing a proper database (PostgreSQL, MongoDB
 
 The application uses the OpenAI JavaScript SDK v5.2.0. The AI summary generation:
 
-- Model: `gpt-3.5-turbo`
+- Model: `gpt-4o-mini`
 - Max tokens: 300
 - Temperature: 0.3 (for consistent, focused summaries)
 

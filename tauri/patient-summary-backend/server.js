@@ -240,10 +240,28 @@ app.get('/api/vet-histories/:id/summary', async (req, res) => {
       return res.status(500).json({ error: 'OpenAI API key not configured' });
     }
 
-    const prompt = `Summarize the following veterinary patient history into key bullet points for a veterinarian:\n${vetHistory.history}`;
+    // Enhanced prompt for better veterinary summaries
+    const prompt = `You are a veterinary assistant. Summarize the following patient history into clear, professional bullet points for veterinary review. Focus on:
+    - Chief complaint/reason for visit
+    - Key findings from examination
+    - Diagnostic results (if any)
+    - Treatment provided or recommended
+    - Current status/prognosis
+    - Follow-up care required
+    
+    Medical History: ${vetHistory.history}
+    
+    Provide a concise summary using bullet points (•) that would be useful for veterinary staff:`;
 
+    // Log the request for debugging
+    console.log(`🔍 Generating AI summary for vet history ID: ${vetHistory.id}`);
+    console.log(`📝 Input history length: ${vetHistory.history.length} characters`);
+    console.log(`🔑 API Key configured: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);
+    console.log(`🔑 API Key starts with: ${process.env.OPENAI_API_KEY ? process.env.OPENAI_API_KEY.substring(0, 20) + '...' : 'N/A'}`);
+    console.log(`🤖 Using model: gpt-4o-mini`);
+    
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'user',
