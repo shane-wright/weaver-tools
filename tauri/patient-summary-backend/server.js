@@ -206,6 +206,11 @@ app.delete('/api/patients/:id', (req, res) => {
   });
 });
 
+// Get all veterinary histories
+app.get('/api/vet-histories', (req, res) => {
+  res.json(vetHistories);
+});
+
 // Create new veterinary history
 app.post('/api/vet-histories', (req, res) => {
   const { species, name, age, history } = req.body;
@@ -301,6 +306,7 @@ app.listen(PORT, () => {
   console.log('  POST   /api/animals      - Create new animal patient');
   console.log('  PUT    /api/animals/:id  - Update animal patient');
   console.log('  DELETE /api/animals/:id  - Delete animal patient');
+  console.log('  GET    /api/vet-histories - Get all veterinary histories');
   console.log('  POST   /api/vet-histories - Create veterinary history');
   console.log('  GET    /api/vet-histories/:id/summary - Get AI summary of vet history');
   console.log('');

@@ -32,12 +32,34 @@ export const createVetHistory = async (vetData) => {
 };
 
 /**
- * Fetches the summary for a specific vet history
+ * Fetches the summary for a specific vet history or processes preloaded data
  * @param {string} id - The vet history ID
+ * @param {Object} [preloadedData] - Optional preloaded patient history data
  * @returns {Promise<Object>} The vet history summary
  */
-export const getVetHistorySummary = async (id) => {
+export const getVetHistorySummary = async (id, preloadedData = null) => {
   try {
+    // If preloaded data is provided, use it for summarization
+    if (preloadedData) {
+      const response = await fetch(`${API_BASE_URL}/api/vet-histories/summarize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          data: preloadedData
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    }
+
+    // Fallback to original behavior - fetch summary by ID
     const response = await fetch(`${API_BASE_URL}/api/vet-histories/${id}/summary`);
 
     if (!response.ok) {
