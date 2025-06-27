@@ -1,5 +1,330 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAllVetHistories, getPatientSummary } from './vetService';
+
+/**
+ * PromptModal - A modal component for custom AI prompt input
+ * 
+ * @param {boolean} visible - Controls modal visibility
+ * @param {function} onClose - Callback function to close the modal
+ * @param {function} onSend - Callback function to send the custom prompt for AI processing
+ * @param {string} patientName - Name of the patient for display in modal title
+ * 
+ * This modal allows users to enter custom prompts for AI-powered patient summary generation.
+ * The AI will use the custom prompt instead of the default summarization prompt to generate
+ * specialized summaries based on specific veterinary requirements.
+ */
+const PromptModal = ({ visible, onClose, onSend, patientName }) => {
+  const [promptValue, setPromptValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (visible) {
+      setPromptValue('');
+      setError('');
+      setIsLoading(false);
+      // Focus the modal for keyboard accessibility
+      const timer = setTimeout(() => {
+        const modalElement = document.querySelector('[data-modal="prompt-modal"]');
+        if (modalElement) {
+          modalElement.focus();
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
+  const handleSend = async () => {
+    const trimmedPrompt = promptValue.trim();
+    if (!trimmedPrompt) {
+      setError('Please enter a prompt before sending.');
+      return;
+    }
+
+    setError('');
+    setIsLoading(true);
+
+    try {
+      await onSend(trimmedPrompt);
+      onClose();
+    } catch (err) {
+      setError('Failed to send prompt. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setPromptValue('');
+    setError('');
+    setIsLoading(false);
+    onClose();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      handleCancel();
+    } else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      if (promptValue.trim() && !isLoading) {
+        handleSend();
+      }
+    }
+  };
+
+  const handleTextareaKeyDown = (e) => {
+    // Allow normal Enter in textarea, but still handle Ctrl+Enter
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      if (promptValue.trim() && !isLoading) {
+        handleSend();
+      }
+    }
+  };
+
+  if (!visible) return null;
+
+  const isPromptEmpty = !promptValue.trim();
+
+  return (
+    <div 
+      data-modal="prompt-modal"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+        padding: '1rem',
+        backdropFilter: 'blur(2px)'
+      }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          handleCancel();
+        }
+      }}
+      onKeyDown={handleKeyDown}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <div 
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          padding: '2rem',
+          maxWidth: '600px',
+          width: '100%',
+          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.2)',
+          position: 'relative',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          color: '#495057',
+          maxHeight: '90vh',
+          overflow: 'auto'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <h3 
+            id="modal-title"
+            style={{ 
+              margin: 0, 
+              color: '#495057',
+              fontSize: '1.5rem',
+              fontWeight: '600'
+            }}
+          >
+            Custom Prompt for {patientName}
+          </h3>
+          <button
+            onClick={handleCancel}
+            disabled={isLoading}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '1.5rem',
+              color: '#6c757d',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              padding: '0.25rem',
+              borderRadius: '4px',
+              opacity: isLoading ? 0.5 : 1,
+              transition: 'color 0.2s'
+            }}
+            onMouseOver={(e) => !isLoading && (e.target.style.color = '#495057')}
+            onMouseOut={(e) => !isLoading && (e.target.style.color = '#6c757d')}
+            aria-label="Close modal"
+          >
+            ×
+          </button>
+        </div>
+
+        <p 
+          id="modal-description"
+          style={{ 
+            margin: '0 0 1rem 0', 
+            color: '#6c757d',
+            fontSize: '0.95rem',
+            lineHeight: '1.5'
+          }}
+        >
+          Enter a custom prompt to generate a specialized summary for this patient.
+        </p>
+
+        {error && (
+          <div style={{ 
+            color: '#dc3545',
+            backgroundColor: '#f8d7da',
+            border: '1px solid #f5c6cb',
+            borderRadius: '6px',
+            padding: '0.75rem',
+            marginBottom: '1rem',
+            fontSize: '0.9rem'
+          }}>
+            {error}
+          </div>
+        )}
+
+        <div style={{ marginBottom: '1.5rem' }}>
+          <label 
+            htmlFor="prompt-textarea"
+            style={{
+              display: 'block',
+              marginBottom: '0.5rem',
+              fontWeight: '500',
+              color: '#495057',
+              fontSize: '0.95rem'
+            }}
+          >
+            Prompt:
+          </label>
+          <textarea 
+            id="prompt-textarea"
+            value={promptValue}
+            onChange={(e) => setPromptValue(e.target.value)}
+            onKeyDown={handleTextareaKeyDown}
+            placeholder="Enter your prompt here... (Press Ctrl+Enter to send)"
+            disabled={isLoading}
+            autoFocus
+            style={{ 
+              width: '100%', 
+              height: '120px',
+              padding: '0.75rem',
+              border: '2px solid #dee2e6',
+              borderRadius: '6px',
+              fontSize: '0.95rem',
+              fontFamily: 'inherit',
+              resize: 'vertical',
+              minHeight: '80px',
+              maxHeight: '200px',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+              backgroundColor: isLoading ? '#f8f9fa' : 'white',
+              cursor: isLoading ? 'not-allowed' : 'text',
+              borderColor: error ? '#dc3545' : (promptValue.trim() ? '#28a745' : '#dee2e6')
+            }}
+            onFocus={(e) => !isLoading && (e.target.style.borderColor = '#007bff')}
+            onBlur={(e) => !isLoading && (e.target.style.borderColor = error ? '#dc3545' : (promptValue.trim() ? '#28a745' : '#dee2e6'))}
+          />
+          <small style={{ 
+            color: '#6c757d', 
+            fontSize: '0.85rem',
+            display: 'block',
+            marginTop: '0.25rem'
+          }}>
+            Tip: Use Ctrl+Enter to send quickly, or Esc to close.
+          </small>
+        </div>
+
+        <div style={{ 
+          display: 'flex', 
+          gap: '1rem', 
+          justifyContent: 'flex-end'
+        }}>
+          <button 
+            onClick={handleCancel} 
+            disabled={isLoading}
+            style={{
+              backgroundColor: 'transparent',
+              color: '#6c757d',
+              border: '2px solid #dee2e6',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '6px',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              fontSize: '0.95rem',
+              fontWeight: '500',
+              transition: 'all 0.2s',
+              opacity: isLoading ? 0.5 : 1,
+              fontFamily: 'inherit'
+            }}
+            onMouseOver={(e) => !isLoading && (
+              e.target.style.backgroundColor = '#f8f9fa',
+              e.target.style.borderColor = '#adb5bd'
+            )}
+            onMouseOut={(e) => !isLoading && (
+              e.target.style.backgroundColor = 'transparent',
+              e.target.style.borderColor = '#dee2e6'
+            )}
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={handleSend} 
+            disabled={isLoading || isPromptEmpty}
+            style={{
+              backgroundColor: (isLoading || isPromptEmpty) ? '#6c757d' : '#007bff',
+              color: 'white',
+              border: 'none',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '6px',
+              cursor: (isLoading || isPromptEmpty) ? 'not-allowed' : 'pointer',
+              fontSize: '0.95rem',
+              fontWeight: '500',
+              transition: 'background-color 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              opacity: (isLoading || isPromptEmpty) ? 0.6 : 1,
+              fontFamily: 'inherit',
+              minWidth: '100px',
+              justifyContent: 'center'
+            }}
+            onMouseOver={(e) => !isLoading && !isPromptEmpty && (e.target.style.backgroundColor = '#0056b3')}
+            onMouseOut={(e) => !isLoading && !isPromptEmpty && (e.target.style.backgroundColor = '#007bff')}
+          >
+            {isLoading && (
+              <div style={{
+                width: '16px',
+                height: '16px',
+                border: '2px solid transparent',
+                borderTop: '2px solid white',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }} />
+            )}
+            {isLoading ? 'Sending...' : 'Send'}
+          </button>
+        </div>
+      </div>
+
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+};
 
 // Hardcoded sample data as fallback
 const SAMPLE_PATIENT_DATA = [
@@ -11,8 +336,49 @@ const SAMPLE_PATIENT_DATA = [
     age: 5,
     owner: 'John Smith',
     lastVisit: '2024-01-15',
-    history: 'Regular checkup. Vaccinations up to date. Slight weight gain noticed. Owner advised on diet management.',
-    status: 'Healthy'
+    status: 'Healthy',
+    visits: [
+      {
+        id: 'v1-1',
+        date: '2024-01-15',
+        reason: 'Annual Checkup',
+        diagnosis: 'Healthy with minor weight gain',
+        treatment: 'Vaccinations updated, diet recommendations provided',
+        notes: 'Weight increased by 3 lbs since last visit. Recommend reducing daily food intake by 10% and increasing exercise. All vital signs normal.',
+        veterinarian: 'Dr. Smith',
+        weight: '68 lbs',
+        temperature: '101.2°F',
+        medications: ['Heartgard Plus', 'NexGard'],
+        followUpRequired: false
+      },
+      {
+        id: 'v1-2',
+        date: '2023-01-10',
+        reason: 'Annual Checkup',
+        diagnosis: 'Healthy',
+        treatment: 'Routine vaccinations, dental cleaning',
+        notes: 'Overall excellent health. Good dental hygiene. Owner very attentive to care.',
+        veterinarian: 'Dr. Smith',
+        weight: '65 lbs',
+        temperature: '101.1°F',
+        medications: ['Heartgard Plus', 'NexGard'],
+        followUpRequired: false
+      },
+      {
+        id: 'v1-3',
+        date: '2022-06-15',
+        reason: 'Injury - Cut Paw',
+        diagnosis: 'Minor laceration on left front paw',
+        treatment: 'Wound cleaning, antibiotics, protective bandaging',
+        notes: 'Small cut from broken glass during walk. Cleaned and bandaged. Prescribed antibiotics to prevent infection.',
+        veterinarian: 'Dr. Johnson',
+        weight: '64 lbs',
+        temperature: '101.0°F',
+        medications: ['Amoxicillin', 'Pain relief'],
+        followUpRequired: true,
+        followUpDate: '2022-06-22'
+      }
+    ]
   },
   {
     id: '2',
@@ -22,8 +388,36 @@ const SAMPLE_PATIENT_DATA = [
     age: 3,
     owner: 'Sarah Johnson',
     lastVisit: '2024-01-10',
-    history: 'Treated for ear infection. Prescribed antibiotics. Follow-up needed in 2 weeks to check healing progress.',
-    status: 'Under Treatment'
+    status: 'Under Treatment',
+    visits: [
+      {
+        id: 'v2-1',
+        date: '2024-01-10',
+        reason: 'Ear Infection',
+        diagnosis: 'Bacterial ear infection (Otitis externa)',
+        treatment: 'Ear cleaning, antibiotic drops, pain medication',
+        notes: 'Severe ear infection with discharge. Started on antibiotic ear drops. Owner instructed on proper administration. Follow-up in 2 weeks.',
+        veterinarian: 'Dr. Wilson',
+        weight: '9.2 lbs',
+        temperature: '102.1°F',
+        medications: ['Otomax ear drops', 'Metacam'],
+        followUpRequired: true,
+        followUpDate: '2024-01-24'
+      },
+      {
+        id: 'v2-2',
+        date: '2023-12-05',
+        reason: 'Routine Checkup',
+        diagnosis: 'Healthy',
+        treatment: 'Vaccinations, dental examination',
+        notes: 'Annual wellness exam. All vaccinations up to date. Slight tartar buildup noted - recommend dental treats.',
+        veterinarian: 'Dr. Wilson',
+        weight: '9.0 lbs',
+        temperature: '101.5°F',
+        medications: ['Monthly flea prevention'],
+        followUpRequired: false
+      }
+    ]
   },
   {
     id: '3',
@@ -33,8 +427,51 @@ const SAMPLE_PATIENT_DATA = [
     age: 7,
     owner: 'Mike Davis',
     lastVisit: '2024-01-08',
-    history: 'Arthritis management. Pain medication adjusted. Doing well with current treatment plan.',
-    status: 'Chronic Condition'
+    status: 'Chronic Condition',
+    visits: [
+      {
+        id: 'v3-1',
+        date: '2024-01-08',
+        reason: 'Arthritis Management',
+        diagnosis: 'Osteoarthritis - stable condition',
+        treatment: 'Pain medication adjustment, joint supplement',
+        notes: 'Arthritis well-managed with current medication. Adjusted Rimadyl dosage. Added glucosamine supplement. Patient showing good mobility.',
+        veterinarian: 'Dr. Brown',
+        weight: '78 lbs',
+        temperature: '101.3°F',
+        medications: ['Rimadyl', 'Glucosamine', 'Fish oil'],
+        followUpRequired: true,
+        followUpDate: '2024-04-08'
+      },
+      {
+        id: 'v3-2',
+        date: '2023-10-15',
+        reason: 'Arthritis Follow-up',
+        diagnosis: 'Osteoarthritis progression',
+        treatment: 'Started pain management protocol',
+        notes: 'Initial diagnosis of arthritis. Started on anti-inflammatory medication. Discussed weight management and exercise modification.',
+        veterinarian: 'Dr. Brown',
+        weight: '80 lbs',
+        temperature: '101.2°F',
+        medications: ['Rimadyl', 'Joint supplement'],
+        followUpRequired: true,
+        followUpDate: '2024-01-15'
+      },
+      {
+        id: 'v3-3',
+        date: '2023-07-20',
+        reason: 'Limping',
+        diagnosis: 'Hip discomfort, suspected arthritis',
+        treatment: 'X-rays, pain relief, rest',
+        notes: 'Owner reported limping after long walks. X-rays show early signs of hip arthritis. Prescribed rest and pain management.',
+        veterinarian: 'Dr. Brown',
+        weight: '81 lbs',
+        temperature: '101.1°F',
+        medications: ['Metacam'],
+        followUpRequired: true,
+        followUpDate: '2023-08-03'
+      }
+    ]
   },
   {
     id: '4',
@@ -44,8 +481,50 @@ const SAMPLE_PATIENT_DATA = [
     age: 2,
     owner: 'Emily Wilson',
     lastVisit: '2024-01-12',
-    history: 'Spay surgery completed successfully. Recovery going well. No complications observed.',
-    status: 'Recovering'
+    status: 'Recovering',
+    visits: [
+      {
+        id: 'v4-1',
+        date: '2024-01-12',
+        reason: 'Post-Surgery Follow-up',
+        diagnosis: 'Spay surgery recovery - excellent progress',
+        treatment: 'Incision check, pain management',
+        notes: 'Post-operative check after spay surgery. Incision healing perfectly. No signs of infection. Pain well-controlled.',
+        veterinarian: 'Dr. Taylor',
+        weight: '7.8 lbs',
+        temperature: '101.0°F',
+        medications: ['Metacam (tapering dose)'],
+        followUpRequired: true,
+        followUpDate: '2024-01-19'
+      },
+      {
+        id: 'v4-2',
+        date: '2024-01-05',
+        reason: 'Spay Surgery',
+        diagnosis: 'Routine spay procedure',
+        treatment: 'Ovariohysterectomy performed',
+        notes: 'Routine spay surgery completed successfully. No complications during procedure. Patient recovering well from anesthesia.',
+        veterinarian: 'Dr. Taylor',
+        weight: '8.0 lbs',
+        temperature: '100.8°F',
+        medications: ['Metacam', 'Antibiotics'],
+        followUpRequired: true,
+        followUpDate: '2024-01-12'
+      },
+      {
+        id: 'v4-3',
+        date: '2023-12-20',
+        reason: 'Pre-Surgery Consultation',
+        diagnosis: 'Healthy - cleared for surgery',
+        treatment: 'Pre-operative examination and bloodwork',
+        notes: 'Pre-surgical exam for spay procedure. All bloodwork normal. Patient cleared for surgery. Discussed post-operative care with owner.',
+        veterinarian: 'Dr. Taylor',
+        weight: '8.1 lbs',
+        temperature: '101.2°F',
+        medications: [],
+        followUpRequired: false
+      }
+    ]
   },
   {
     id: '5',
@@ -55,16 +534,100 @@ const SAMPLE_PATIENT_DATA = [
     age: 4,
     owner: 'Robert Brown',
     lastVisit: '2024-01-14',
-    history: 'Routine dental cleaning performed. All teeth healthy. Next cleaning recommended in 12 months.',
-    status: 'Healthy'
+    status: 'Healthy',
+    visits: [
+      {
+        id: 'v5-1',
+        date: '2024-01-14',
+        reason: 'Dental Cleaning',
+        diagnosis: 'Good dental health',
+        treatment: 'Professional dental cleaning and scaling',
+        notes: 'Annual dental cleaning performed under anesthesia. All teeth in excellent condition. No extractions needed. Recommend dental treats for maintenance.',
+        veterinarian: 'Dr. Anderson',
+        weight: '72 lbs',
+        temperature: '101.0°F',
+        medications: ['Post-anesthesia monitoring'],
+        followUpRequired: false,
+        nextDentalCleaning: '2025-01-14'
+      },
+      {
+        id: 'v5-2',
+        date: '2023-08-10',
+        reason: 'Annual Wellness',
+        diagnosis: 'Excellent health',
+        treatment: 'Vaccinations, heartworm test, fecal exam',
+        notes: 'Annual wellness exam. All vaccines updated. Heartworm test negative. Fecal exam clear. Owner doing excellent job with preventive care.',
+        veterinarian: 'Dr. Anderson',
+        weight: '70 lbs',
+        temperature: '101.2°F',
+        medications: ['Heartgard Plus', 'NexGard', 'Annual vaccines'],
+        followUpRequired: false
+      },
+      {
+        id: 'v5-3',
+        date: '2023-03-22',
+        reason: 'Stomach Upset',
+        diagnosis: 'Mild gastroenteritis',
+        treatment: 'Bland diet, probiotics, monitoring',
+        notes: 'Owner reported vomiting and diarrhea for 2 days. Likely dietary indiscretion. Prescribed bland diet and probiotics. Resolved within 3 days.',
+        veterinarian: 'Dr. Anderson',
+        weight: '69 lbs',
+        temperature: '101.8°F',
+        medications: ['Probiotics', 'Anti-nausea medication'],
+        followUpRequired: false
+      }
+    ]
   }
 ];
 
+/**
+ * PatientHistoryList - Main component for displaying and managing patient histories
+ * 
+ * @param {boolean} [useApi=false] - Controls data source for patient records
+ *   - true: Attempts to fetch data from the existing vet histories API endpoint
+ *   - false: Uses hardcoded sample data for development/testing
+ * 
+ * Features:
+ * - Displays patient records in a responsive table format
+ * - Supports both API and hardcoded data sources with automatic fallback
+ * - Patient detail view with comprehensive medical history display
+ * - AI-powered summary generation with custom prompt support
+ * - Real-time loading states and error handling
+ * - Custom prompt modal for specialized AI summarization
+ * 
+ * The component integrates with vetService.js to generate AI summaries using:
+ * - getPatientSummary() for default summaries
+ * - Custom prompts through the PromptModal for specialized veterinary analysis
+ * 
+ * Expected data format for patient histories:
+ * {
+ *   id: string,
+ *   name: string,
+ *   species: string,
+ *   breed: string,
+ *   age: number,
+ *   owner: string,
+ *   lastVisit: string (YYYY-MM-DD),
+ *   status: string ('Healthy', 'Under Treatment', 'Chronic Condition', 'Recovering'),
+ *   history: string (detailed medical history text),
+ *   visits?: [{
+ *     id: string,
+ *     date: string,
+ *     reason: string,
+ *     diagnosis: string,
+ *     treatment: string,
+ *     notes: string,
+ *     veterinarian: string,
+ *     medications: string[]
+ *   }]
+ * }
+ */
 const PatientHistoryList = ({ useApi = false }) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedPatient, setSelectedPatient] = useState(null);
   const [dataSource, setDataSource] = useState('loading');
   const [summaries, setSummaries] = useState({}); // Store summaries by patient ID
   const [loadingSummaries, setLoadingSummaries] = useState({}); // Track loading state per patient
@@ -119,6 +682,35 @@ const PatientHistoryList = ({ useApi = false }) => {
 
   const handlePatientSelect = (patient) => {
     setSelectedPatient(selectedPatient?.id === patient.id ? null : patient);
+  };
+
+  const handleSendPrompt = async (promptText) => {
+    // Close the modal
+    setModalVisible(false);
+    
+    // Set loading state for selectedPatient.id
+    setLoadingSummaries(prev => ({ ...prev, [selectedPatient.id]: true }));
+    
+    try {
+      // Call getPatientSummary with selectedPatient and promptText
+      const result = await getPatientSummary(selectedPatient, promptText);
+      
+      // Update summaries[selectedPatient.id] with result
+      setSummaries(prev => ({ 
+        ...prev, 
+        [selectedPatient.id]: result.summary 
+      }));
+    } catch (error) {
+      console.error('Error generating custom summary:', error);
+      setSummaries(prev => ({ 
+        ...prev, 
+        [selectedPatient.id]: 'Error generating custom summary. Please try again.' 
+      }));
+    } finally {
+      // Clear selectedPatient and set loading false
+      setSelectedPatient(null);
+      setLoadingSummaries(prev => ({ ...prev, [selectedPatient.id]: false }));
+    }
   };
 
   const handleRefresh = () => {
@@ -336,7 +928,10 @@ const PatientHistoryList = ({ useApi = false }) => {
                       {selectedPatient?.id === patient.id ? 'Hide Details' : 'View Details'}
                     </button>
                     <button
-                      onClick={() => handleSummarize(patient)}
+                      onClick={() => {
+                        setSelectedPatient(patient);
+                        setModalVisible(true);
+                      }}
                       disabled={loadingSummaries[patient.id]}
                       style={{
                         backgroundColor: loadingSummaries[patient.id] ? '#6c757d' : '#28a745',
@@ -499,9 +1094,17 @@ const PatientHistoryList = ({ useApi = false }) => {
           <li><strong>Error Handling:</strong> The component falls back to sample data if the API is unavailable</li>
         </ul>
       </div>
+
+      <PromptModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        onSend={handleSendPrompt}
+        patientName={selectedPatient?.name}
+      />
     </div>
   );
 };
 
 export default PatientHistoryList;
+export { PromptModal };
 

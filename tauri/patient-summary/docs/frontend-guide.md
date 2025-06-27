@@ -170,6 +170,21 @@ patient-summary/
 - **Intuitive Workflow**: Guided process from history creation to summary
 - **Helpful Instructions**: Built-in usage guide
 
+### 5. Custom Prompt Feature
+
+- **Specialized AI Analysis**: Generate custom summaries with targeted prompts
+- **Modal Interface**: User-friendly prompt input with validation
+- **Keyboard Shortcuts**: Ctrl+Enter to send, Escape to close modal
+- **Real-time Processing**: Live status updates during AI generation
+- **Error Handling**: Graceful handling of prompt failures with user feedback
+
+#### Custom Prompt Examples
+- "Focus on behavioral issues and training recommendations"
+- "Summarize vaccination history and identify gaps"
+- "Analyze pain management effectiveness"
+- "Review dietary recommendations and nutritional needs"
+- "Assess post-surgical recovery progress"
+
 ## API Integration
 
 ### Service Architecture

@@ -32,12 +32,50 @@ export const createVetHistory = async (vetData) => {
 };
 
 /**
- * Generates an AI summary for a patient's history
- * @param {Object} patient - The patient object containing history
- * @param {boolean} [usePreloadedData=false] - Whether to use preloaded data instead of creating new record
- * @returns {Promise<Object>} The AI-generated summary
+ * Generates an AI summary for a patient's history with custom prompt support
+ * 
+ * This function serves as the main interface for AI-powered patient summarization,
+ * supporting both default and custom prompt-based analysis. It can work with
+ * preloaded patient data or create temporary records for summarization.
+ * 
+ * @param {Object} patient - The patient object containing comprehensive history data
+ * @param {string} patient.id - Unique patient identifier
+ * @param {string} patient.name - Patient name
+ * @param {string} patient.species - Animal species (Dog, Cat, etc.)
+ * @param {number} patient.age - Patient age in years
+ * @param {string} patient.history - Detailed medical history text
+ * @param {string} [customPrompt] - Custom AI prompt for specialized analysis
+ *   - If provided, overrides the default summarization prompt
+ *   - Allows for specific veterinary analysis (e.g., "Focus on behavioral issues",
+ *     "Summarize only vaccination history", "Analyze pain management effectiveness")
+ *   - Should be clear and specific to get best AI results
+ * @param {boolean} [usePreloadedData=false] - Data handling mode
+ *   - true: Uses patient data directly without creating API records
+ *   - false: Creates temporary vet history record for traditional API flow
+ * 
+ * @returns {Promise<Object>} AI-generated summary response
+ * @returns {string} returns.patientId - Original patient ID
+ * @returns {string} returns.patientName - Patient name for reference
+ * @returns {string} returns.summary - AI-generated summary text
+ * 
+ * @example
+ * // Default summarization
+ * const summary = await getPatientSummary(patient);
+ * 
+ * // Custom prompt for behavioral analysis
+ * const behaviorSummary = await getPatientSummary(
+ *   patient, 
+ *   "Analyze behavioral patterns and provide recommendations for training"
+ * );
+ * 
+ * // Using preloaded data with custom prompt
+ * const quickSummary = await getPatientSummary(
+ *   patient, 
+ *   "Provide a brief overview of recent health trends", 
+ *   true
+ * );
  */
-export const getPatientSummary = async (patient, usePreloadedData = false) => {
+export const getPatientSummary = async (patient, customPrompt, usePreloadedData = false) => {
   try {
     if (usePreloadedData) {
       // Use preloaded data directly for summarization without creating a new record
@@ -52,7 +90,7 @@ export const getPatientSummary = async (patient, usePreloadedData = false) => {
       const tempId = `temp_${Date.now()}`;
       
       // Get summary using preloaded data
-      const summary = await getVetHistorySummary(tempId, patientData);
+      const summary = await getVetHistorySummary(tempId, patientData, { prompt: customPrompt });
       
       return {
         patientId: patient.id,
@@ -73,7 +111,7 @@ export const getPatientSummary = async (patient, usePreloadedData = false) => {
     const createdHistory = await createVetHistory(vetHistoryData);
     
     // Then get the summary using the ID
-    const summary = await getVetHistorySummary(createdHistory.id);
+    const summary = await getVetHistorySummary(createdHistory.id, null, { prompt: customPrompt });
     
     return {
       patientId: patient.id,
@@ -87,12 +125,39 @@ export const getPatientSummary = async (patient, usePreloadedData = false) => {
 };
 
 /**
- * Fetches the summary for a specific vet history or processes preloaded data
- * @param {string} id - The vet history ID
- * @param {Object} [preloadedData] - Optional preloaded patient history data
- * @returns {Promise<Object>} The vet history summary
+ * Fetches AI summary for vet history with support for custom prompts and preloaded data
+ * 
+ * This function handles both traditional ID-based summary fetching and direct
+ * data processing for immediate summarization without database storage.
+ * 
+ * @param {string} id - The vet history ID or temporary identifier
+ * @param {Object} [preloadedData=null] - Optional preloaded patient history data
+ * @param {string} preloadedData.species - Animal species
+ * @param {string} preloadedData.name - Animal name
+ * @param {number} preloadedData.age - Animal age
+ * @param {string} preloadedData.history - Medical history text
+ * @param {Object} [options={}] - Additional options for summarization
+ * @param {string} [options.prompt] - Custom AI prompt for specialized analysis
+ *   - Overrides default summarization behavior
+ *   - Examples: "Focus on behavioral issues", "Analyze vaccination compliance"
+ *   - Should be specific and veterinary-focused for best results
+ * 
+ * @returns {Promise<Object>} AI-generated summary response
+ * @returns {string} returns.summary - The AI-generated summary text
+ * @returns {string} [returns.id] - History ID (if applicable)
+ * 
+ * @example
+ * // Fetch summary by ID with default prompt
+ * const summary = await getVetHistorySummary('hist_123');
+ * 
+ * // Process preloaded data with custom prompt
+ * const customSummary = await getVetHistorySummary(
+ *   'temp_id', 
+ *   { species: 'Dog', name: 'Buddy', age: 5, history: '...' },
+ *   { prompt: 'Focus on chronic conditions and management' }
+ * );
  */
-export const getVetHistorySummary = async (id, preloadedData = null) => {
+export const getVetHistorySummary = async (id, preloadedData = null, options = {}) => {
   try {
     // If preloaded data is provided, use it for summarization
     if (preloadedData) {
@@ -103,7 +168,8 @@ export const getVetHistorySummary = async (id, preloadedData = null) => {
         },
         body: JSON.stringify({
           id,
-          data: preloadedData
+          data: preloadedData,
+          prompt: options.prompt
         }),
       });
 
