@@ -1,0 +1,21 @@
+{
+  "name": "star-wars-scroller",
+  "version": "1.0.0",
+  "description": "A Star Wars-themed side-scroller game built with JavaScript, Canvas API, and Tauri",
+  "main": "src/index.html",
+  "scripts": {
+    "dev": "echo 'Development server running'",
+    "build": "echo 'Build complete'",
+    "lint": "eslint src/**/*.js src/**/*.html --ext .js,.html",
+    "format": "prettier --write src/"
+  },
+  "keywords": ["game", "star-wars", "canvas", "tauri", "desktop"],
+  "author": "Shane",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.0",
+    "prettier": "^3.0.0"
+  }
+}
